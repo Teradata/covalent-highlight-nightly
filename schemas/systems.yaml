@@ -1,0 +1,13 @@
+# this is a sample schema file for a user object.
+
+---
+initial_entries: 8
+name: _systemname_
+#id: ^uuid()^
+id: _uuid_
+#status: ^mostly("active","inactive","string")^
+status: _activity_
+#sessions: ^integer(0,12)^
+sessions: _session_
+workloads:  _workload_ 
+...

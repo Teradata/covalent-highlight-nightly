@@ -1,0 +1,4 @@
+teradata
+ebay
+apple
+amazon
