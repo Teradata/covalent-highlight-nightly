@@ -6,19 +6,21 @@ covalent-data is a mock API server with the following features:
 1. mock CRUD capability (available now)
 2. mock chart data (TBA)
 
-### Getting Started
+### Getting started with go
+To run from source or to create your own executables, you must first install [Go](https://golang.org/doc/install).
 
-A prerequisite to running covalent-data is to have [Go](https://golang.org/doc/install) installed on your machine.  Alternatively, you can use precompiled executables that are included with [covalent-quickstart](https://github.com/Teradata/covalent-quickstart).
-
-#### Getting started with go
 1. Pull down this repository into your $GOROOT src folder
 2. cd into this repo and `go get`
-2. `go run server.go`
+3. `go run server.go`
+4. The `/schema` directory and the `/datum` directory must be in the root of this repo.
 
-#### Getting started with covalent-quickstart
+### Getting started with covalent-quickstart
+To run from precompiled binaries, you can pull down the [covalent-quickstart](https://github.com/Teradata/covalent-quickstart) repo.
+
 1. cd into the covalent-quickstart directory
 2. cd into the `mock-api` directory
 3. run the executable that's applicable to your operating system.
+4. The `/schema` directory and the `/datum` directory must be in the root of this repo.
 
 ### Customizing CRUD objects
 covalent-data allows you to create custom [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) endpoints.
