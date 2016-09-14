@@ -3,9 +3,8 @@
 
 covalent-data is a mock API server with the following features:
 
-1. CRUD capability (available now)
+1. mock CRUD capability (available now)
 2. mock chart data (TBA)
-3. mock API endpoints (TBA)
 
 ### Getting Started
 
@@ -66,10 +65,9 @@ localsystem
 ```
 
 ### Upcoming and To-Dos
-- [ ] Add dockerfile
+- [ ] Add a dockerfile and add to docker hub
 - [ ] Link to precompiled binaries
 - [ ] Update schema detection to use go templates
 - [ ] Godoc support
 - [ ] Mock chart data support
-- [ ] Mock endpoint support
 - [ ] Function support for CRUD seeding
