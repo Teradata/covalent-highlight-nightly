@@ -30,13 +30,15 @@ There are two steps to customizing CRUD objects:
 #### Step one (Create your mock object schemas):
 - Create a yaml file in the `/schemas` directory.
 - The CRUD endpoints will be automatically created based on the name of the file you create. (for instance, `systems.yaml` will create GET, POST, PUT, PATCH, and DELETE at http://localhost:8080/systems)
-- The first line of the yaml file should be labeled `initial_entries`.  This tells the API server how many initial entries to seed your table with.
+- The first line of the yaml file can optionally be labeled `initial_entries`.  This tells the API server how many initial entries to seed your table with.
+- The second line of the yaml file can optionally be labeled `randomize`.  This tells the API server whether you want the seed data randomized, or ordered.  Ordered data can be useful if you need to have the same usernames across multiple objects, for example.
 - The following lines in the yaml file define what the structure of your object will look like.
 - Notice the following yaml example has some variable names bounded by underscores (`_systemname_`)- these will be discussed in the next step.
 
 `systems.yaml:`
 ``` yaml
 initial_entries: 8
+randmoize: false
 name: _systemname_
 status: _activity_
 sessions: _session_

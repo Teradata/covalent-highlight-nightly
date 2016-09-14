@@ -61,14 +61,23 @@ func ImportSchemas(schemaDir string, datumDir string) []string {
 			continue
 		}
 
-		numSeeds := 50
+		// check to see how many seed items to create, if not specified create one
+		numSeeds := 1
 		if i, ok := s["initial_entries"].(int); ok {
 			numSeeds = i
 		}
 		delete(s, "initial_entries")
 
+		// check if data should be randomized, if not specified, randomize all the things
+		randomize := true
+		if i, ok := s["randomize"].(bool); ok {
+			randomize = i
+		}
+		delete(s, "randomize")
+
 		log.Info(`Seeding initial collection "`, key, `" with `, numSeeds, ` entries`)
-		err = SeedData(s, key, datumDir, numSeeds)
+		log.Info("Seed datum randomization: ", randomize)
+		err = SeedData(s, key, datumDir, numSeeds, randomize)
 		if err != nil {
 			log.Error("Could not seed data: ", err)
 			return []string{}
@@ -87,7 +96,7 @@ func ImportSchemas(schemaDir string, datumDir string) []string {
 	return routes
 }
 
-func SeedData(schemaTemplate map[string]interface{}, key string, datumDir string, numEntries int) error {
+func SeedData(schemaTemplate map[string]interface{}, key string, datumDir string, numEntries int, randomize bool) error {
 
 	collection := DB.Use(key)
 	files, err := ioutil.ReadDir(datumDir)
@@ -124,18 +133,26 @@ func SeedData(schemaTemplate map[string]interface{}, key string, datumDir string
 		}
 
 		// create an array of unique integer permutations so we dont repeat random data
-		randPermArrays := map[string][]int{}
+		permArrays := map[string][]int{}
 		for keyword, valArray := range datum {
 
-			if _, ok := randPermArrays[keyword]; !ok {
-				randPermArrays[keyword] = rand.Perm(len(valArray))
+			if _, ok := permArrays[keyword]; !ok {
+				if randomize {
+					permArrays[keyword] = rand.Perm(len(valArray))
+				} else {
+					orderedArray := make([]int, len(valArray))
+					for i := 0; i < len(valArray); i++ {
+						orderedArray[i] = i
+					}
+					permArrays[keyword] = orderedArray
+				}
 			}
 
 			// replace any _keywords_ with a random value
 			for k, v := range newEntry {
 				if value, ok := v.(string); ok {
 					search := "_" + keyword + "_"
-					replace := valArray[randPermArrays[keyword][i%len(valArray)]]
+					replace := valArray[permArrays[keyword][i%len(valArray)]]
 					newVal := strings.Replace(value, search, replace, -1)
 					newEntry[k] = newVal
 				} else {
