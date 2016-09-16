@@ -47,11 +47,11 @@ func Read(collection string, columns []string, query interface{}) ([]map[string]
 	return results, len(results), nil
 }
 
-func Update(collection string, searchCol string, id string, doc *map[string]interface{}) error {
+func Update(collection string, searchCol string, id string, doc *map[string]interface{}) (map[string]interface{}, error) {
 	if !CheckIfCollectionExists(collection, DB) {
 		errmsg := collection + " collection does not exist."
 		log.Error(errmsg)
-		return fmt.Errorf(errmsg)
+		return nil, fmt.Errorf(errmsg)
 	}
 
 	query := map[string]interface{}{
@@ -61,22 +61,23 @@ func Update(collection string, searchCol string, id string, doc *map[string]inte
 	}
 
 	t := DB.Use(collection)
+	t.Index([]string{searchCol})
 
 	queryResult := make(map[int]struct{})
 	if err := db.EvalQuery(query, t, &queryResult); nil != err {
 		log.Error("Could not execute the query:", err)
-		return err
+		return nil, err
 	}
 
 	for id := range queryResult {
 		err := t.Update(id, *doc)
 		if err != nil {
 			log.Error("Could not update the document: ", err)
-			return err
+			return nil, err
 		}
 	}
 
-	return nil
+	return *doc, nil
 }
 
 func Delete(collection string, searchCol string, id string) error {

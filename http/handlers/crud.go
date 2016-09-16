@@ -63,15 +63,15 @@ func UpdateObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	log.Info("Executing UpdateObject on " + collection + "/" + id)
 
 	//to do- make all these id's query parameters
-	err := crud.Update(collection, "id", id, b)
+	doc, err := crud.Update(collection, "id", id, b)
 	if err != nil {
 		helpers.RespondServerError(w, "performing an update")
 		log.Error(err)
 		return
 	}
 
-	log.Info("Deleted object " + collection + "/" + id)
-	helpers.Respond(w, nil, http.StatusOK)
+	log.Info("Updated object " + collection + "/" + id)
+	helpers.Respond(w, doc, http.StatusOK)
 }
 
 func DeleteObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

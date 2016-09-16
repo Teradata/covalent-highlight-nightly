@@ -22,7 +22,11 @@ func Initialize() {
 func Start(port string) {
 
 	log.Info("Adding CORS support")
-	handler := cors.Default().Handler(router)
+	c := cors.New(cors.Options{
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+	})
+	handler := c.Handler(router)
 
 	log.Info("Listening on port :" + port)
 	log.Warn(http.ListenAndServe(":"+port, handler))
