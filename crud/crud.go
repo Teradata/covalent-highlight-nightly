@@ -30,6 +30,7 @@ func Read(collection string, columns []string, query interface{}) ([]map[string]
 
 	t := DB.Use(collection)
 	t.Index(columns)
+
 	if err := db.EvalQuery(query, t, &queryResult); nil != err {
 		log.Error("Could not execute the query: ", err)
 		return nil, 0, err
@@ -88,6 +89,7 @@ func Delete(collection string, searchCol string, id string) error {
 	}
 
 	t := DB.Use(collection)
+	t.Index([]string{searchCol})
 
 	queryResult := make(map[int]struct{})
 	if err := db.EvalQuery(query, t, &queryResult); nil != err {
