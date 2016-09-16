@@ -39,8 +39,8 @@ func Read(collection string, columns []string, query interface{}) ([]map[string]
 	for id := range queryResult {
 		rb, err := t.Read(id)
 		if nil != err {
-			log.Error("Could not read ID: ", err)
-			return nil, 0, err
+			log.Warn("Could not read ID ", id, ". It may have been deleted.")
+			continue
 		}
 		results = append(results, rb)
 	}
@@ -104,8 +104,6 @@ func Delete(collection string, searchCol string, id string) error {
 			return err
 		}
 	}
-
-	t.Index([]string{searchCol})
 
 	return nil
 }
