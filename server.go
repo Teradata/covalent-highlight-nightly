@@ -6,6 +6,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/Teradata/covalent-data/charts"
 	"github.com/Teradata/covalent-data/crud"
 	"github.com/Teradata/covalent-data/router"
 )
@@ -46,6 +47,7 @@ func main() {
 	// add generated endpoints for imported schema objects
 	log.Info("Adding HTTP routes for object CRUD endpoints...")
 	router.AddCrudRoutes(routes)
+	router.AddChartRoutes()
 
 	// start the router and server
 	log.Info("Starting HTTP router and server...")
