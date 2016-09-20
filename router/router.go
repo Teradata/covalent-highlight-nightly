@@ -55,7 +55,7 @@ func AddCrudRoutes(endpoints []string) {
 // Add chart API routes
 func AddChartRoutes() {
 	router.GET("/charts", handlers.GetCharts)
-	router.GET("/charts/:id", handlers.ReadChart)
+	router.GET("/charts/:key", handlers.ReadChart)
 	router.POST("/charts", handlers.CreateChart)
-	router.DELETE("/charts/:id", handlers.DeleteChart)
+	router.DELETE("/charts/:key", handlers.DeleteChart)
 }

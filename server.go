@@ -6,7 +6,6 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
-	"github.com/Teradata/covalent-data/charts"
 	"github.com/Teradata/covalent-data/crud"
 	"github.com/Teradata/covalent-data/router"
 )

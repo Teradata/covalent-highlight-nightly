@@ -1,6 +1,7 @@
 package charts
 
 import (
+	"fmt"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -34,6 +35,28 @@ type Set struct {
 	ys        []yAxis
 }
 
+// GetSetData returns an array of data points from the existing set.
+func GetSetData(key string) *[]map[string]interface{} {
+
+	if _, ok := Sets[key]; !ok {
+		return nil
+	}
+
+	s := *Sets[key]
+
+	ma := []map[string]interface{}{}
+	for i := 0; i < s.Length; i++ {
+		m := map[string]interface{}{}
+		m[s.x.name] = s.x.values[i]
+		for _, y := range s.ys {
+			m[y.name] = y.values[i]
+		}
+		ma = append(ma, m)
+	}
+
+	return &ma
+}
+
 func ListSets() []map[string]interface{} {
 	ma := []map[string]interface{}{}
 	for k, v := range Sets {
@@ -48,8 +71,18 @@ func ListSets() []map[string]interface{} {
 	return ma
 }
 
+func DeleteSet(key string) {
+	if _, ok := Sets[key]; !ok {
+		return
+	}
+
+	s := *Sets[key]
+	s.Stop()
+	delete(Sets, key)
+}
+
 // NewSet returns a new set.
-func New(Name string, Length int, IntervalS int) *Set {
+func NewSet(Name string, Length int, IntervalS int) *Set {
 	if Length == 0 || IntervalS == 0 {
 		return nil
 	}
@@ -69,7 +102,11 @@ func New(Name string, Length int, IntervalS int) *Set {
 	return Sets[key]
 }
 
-func (s *Set) AddYAxis(name string, fn function) {
+func (s *Set) AddYAxis(name string, fn function) error {
+	if fn == nil {
+		return fmt.Errorf("Specified function does not exist.")
+	}
+
 	y := yAxis{
 		name:     name,
 		values:   []float64{},
@@ -81,6 +118,8 @@ func (s *Set) AddYAxis(name string, fn function) {
 		y.values[i] = fn(i)
 	}
 	s.ys = append(s.ys, y)
+
+	return nil
 }
 
 func (s *Set) createXAxis(name string) {
@@ -100,15 +139,6 @@ func (s *Set) createXAxis(name string) {
 	s.x = x
 }
 
-func (s *Set) Push() {
-	now := time.Now().Unix()
-	i := int((now-s.created)/int64(s.IntervalS)) + (s.Length - 1)
-	s.x.values = append(s.x.values[1:], now)
-	for a, y := range s.ys {
-		s.ys[a].values = append(y.values[1:], y.function(i))
-	}
-}
-
 func (s *Set) Run() {
 	s.createXAxis("timestamp")
 	s.active = true
@@ -120,7 +150,7 @@ func (s *Set) Run() {
 				return
 			default:
 				time.Sleep(time.Duration(s.IntervalS) * time.Second)
-				s.Push()
+				s.push()
 			}
 		}
 	}()
@@ -129,4 +159,17 @@ func (s *Set) Run() {
 func (s *Set) Stop() {
 	s.active = false
 	s.stop <- true
+}
+
+func (s *Set) IsActive() bool {
+	return s.active
+}
+
+func (s *Set) push() {
+	now := time.Now().Unix()
+	i := int((now-s.created)/int64(s.IntervalS)) + (s.Length - 1)
+	s.x.values = append(s.x.values[1:], now)
+	for a, y := range s.ys {
+		s.ys[a].values = append(y.values[1:], y.function(i))
+	}
 }

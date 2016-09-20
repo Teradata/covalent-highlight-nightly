@@ -37,7 +37,8 @@ func ReadAllObjects(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 
 func CreateObject(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	collection := helpers.GetBasePath(r)
-	b := helpers.GetRequestBody(r)
+	b := &map[string]interface{}{}
+	helpers.GetRequestBody(r, b)
 	log.Info("Executing CreateObject on " + collection)
 	if b == nil {
 		helpers.RespondBadRequest(w)
@@ -52,14 +53,15 @@ func CreateObject(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 	log.Info("Created object in "+collection+" with document ID ", docID)
-	helpers.Respond(w, *b, http.StatusOK)
+	helpers.Respond(w, b, http.StatusOK)
 
 }
 
 func UpdateObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	id := ps.ByName("id")
 	collection := helpers.GetBasePath(r)
-	b := helpers.GetRequestBody(r)
+	b := &map[string]interface{}{}
+	helpers.GetRequestBody(r, b)
 	log.Info("Executing UpdateObject on " + collection + "/" + id)
 
 	//to do- make all these id's query parameters
