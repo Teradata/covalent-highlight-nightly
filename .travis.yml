@@ -5,7 +5,7 @@ go:
 install:
 - make install
 before_deploy:
-- VERSION={{TRAVIS_TAG}} make release
+- VERSION=$TRAVIS_TAG make release
 deploy:
   provider: releases
   api_key:
