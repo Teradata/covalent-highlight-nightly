@@ -4,6 +4,8 @@ go:
 - 1.7.1
 install:
 - make install
+script:
+- echo ${TRAVIS_BUILD_ID}
 before_deploy:
 - VERSION=${TRAVIS_TAG} make release
 deploy:
@@ -15,4 +17,5 @@ deploy:
   skip_cleanup: true
   on:
     repo: Teradata/covalent-data
-    branch: develop
+    tags: true
+    all_branches: true
