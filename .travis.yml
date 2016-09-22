@@ -1,0 +1,17 @@
+language: go
+sudo: false
+go:
+- 1.7.1
+install:
+- make install
+before_deploy:
+- make release
+deploy:
+  provider: releases
+  api_key:
+    secure: YaIGzVWGzltLp3m5XWqfEJWTUH79Ya8rIxzVONe6x12grADwzKhCg4mkO3Og+vOOOax+ncCYXGzLdFINdDiptKRuFlO/04gekn2goybngaLGYcwgAcja6jr9rL7wdIAqViRDPL3+MPsTvPmcnhvvt5XTr08vppBZwencmWE4iuHCqcQ9ogTb5MORm+ypiLI4GFFrsdUT2VxcOzYj53EMi6NX7GKkx+1aPLA9Ls4piVHVHge2EgN9oi1zyhJie6tvE7PD9xGpbJf8oTHZztjaoAqj1wsGChsNq0KZwB1TePnuPXB0fqKs7fzt2/0eQiaqB77Lt1vqAEY66Iku3rFdTEwzwcIZboUG28OX1GBO4sjmL+yLULiXizAUMQA8by21AW85wA5ECNLLhhtwa/s3pY8OtWUoDtiqvZoyG7CrFs4/99hxSHMxdCTxLWEZPO+VRuJFFRkMSxpkHrqixPA9RojmSY2QJW1qRjAnFEKvf/RL7vhOkiNrCcNhdtYCcEuzCIagtLTL/LKMDvbdU4YAg5J6bQRZSXgoVSQf1oy7hFfA3DXnAVfL/7s6E0IWE/+/Iuu5+J9Bs1qKacEvqUDIQc2IkzhfysqwQrGxS1oZP7ut+SM5HJEt+l/0oPYNyPDwlBA7a7JPocOMohSyo+P+EV0X9YTnYTgx/7AyuiQTXIQ=
+  file: release/*
+  skip_cleanup: true
+  on:
+    repo: Teradata/covalent-data
+    branch: develop
