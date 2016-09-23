@@ -3,10 +3,11 @@
 
 covalent-data is a mock API server with the following features:
 
-1. mock CRUD capability (available now)
+1. mock CRUD capability
 2. mock chart data (TBA)
 
-### Getting started with go
+### Getting started
+#### go
 To run from source or to create your own executables, you must first install [Go](https://golang.org/doc/install).
 
 1. Pull down this repository into your $GOROOT src folder
@@ -14,20 +15,27 @@ To run from source or to create your own executables, you must first install [Go
 3. `go run server.go`
 4. The `/schema` directory and the `/datum` directory must be in the root of this repo.
 
-### Getting started with covalent-quickstart
-To run from precompiled binaries, you can pull down the [covalent-quickstart](https://github.com/Teradata/covalent-quickstart) repo.
+#### npm
+The covalent-data CLI is available to download as a package in the [npm repository](https://www.npmjs.com/package/@covalent/data).
 
-1. cd into the covalent-quickstart directory
-2. cd into the `mock-api` directory
-3. run the executable that's applicable to your operating system.
-4. The `/schema` directory and the `/datum` directory must be in the root of this repo.
+1. `npm install @covalent/data -g`
+2. `covalent-data`
 
-### Customizing CRUD objects
+#### covalent-quickstart
+covalent-data is included in the [covalent-quickstart](https://github.com/Teradata/covalent-quickstart) repo.
+
+1. Pull down the latest covalent-quickstart repo.
+2. `npm install`
+3. `npm run start-api` (`npm run stop-api` to stop the API server)
+4. `ng serve` and go to http://localhost:4200
+
+### Using covalent-data
+#### Customizing CRUD objects
 covalent-data allows you to create custom [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) endpoints.
 On startup, it will automatically create these endpoints from yaml files in the `/schemas` directory and seed them with mock data based on example files in the `datum` directory.
 There are two steps to customizing CRUD objects:
 
-#### Step one (Create your mock object schemas):
+##### Step one (Create your mock object schemas):
 - Create a yaml file in the `/schemas` directory.
 - The CRUD endpoints will be automatically created based on the name of the file you create. (for instance, `systems.yaml` will create GET, POST, PUT, PATCH, and DELETE at http://localhost:8080/systems)
 - The first line of the yaml file can optionally be labeled `initial_entries`.  This tells the API server how many initial entries to seed your table with.
@@ -54,7 +62,7 @@ will generate eight random JSON objects that look like this:
   "workloads": "55"
 ```
 
-#### Step two (Create mock data values to seed your schemas with):
+##### Step two (Create mock data values to seed your schemas with):
 - Create a text file in the `/datum` directory.
 - The text file should be named with one of the underscore bounded variables from the previous steps. (For instance, `systemname.txt`.
 - Each line of the txt file should have one value that you want to seed your initial database with.  (For instance, `tdsystem`).
