@@ -1,5 +1,5 @@
 {
-  "name": "data",
+  "name": "@covalent/data",
   "version": "0.1.0",
   "description": "A golang based mock data server CLI, for use with Teradata Covalent Quickstart",
   "author": "Ilsun Park <ilsun.park@gmail.com>",
