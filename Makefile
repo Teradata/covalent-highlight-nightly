@@ -1,4 +1,4 @@
-PROJECT = covalent-test
+PROJECT = covalent-data
 OSES = linux darwin freebsd openbsd
 
 .PHONY: install test release
