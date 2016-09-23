@@ -77,12 +77,12 @@ localsystem
 ```
 ##### Step three- try it out!
 Once your mock objects are created, run the mock server.  You can then send RESTful commands to it!  Try the following:
-`GET http://localhost:8080/ping` (this will return a pong)
-`GET http://localhost:8080/systems` (this will return the fake systems defined by the schemas and datum)
-`POST http://localhost:8080/systems` - send a body with this one to create a new entry
-`GET http://localhost:8080/systems/{system_name}`
-`PUT http://localhost:8080/systems/{system_name}` - send a body with this one to update the system
-`DELETE http://localhost:8080/systems/{system_name}` - delete the system
+- `GET http://localhost:8080/ping` (this will return a pong)
+- `GET http://localhost:8080/systems` (this will return the fake systems defined by the schemas and datum)
+- `POST http://localhost:8080/systems` - send a body with this one to create a new entry
+- `GET http://localhost:8080/systems/{system_name}`
+- `PUT http://localhost:8080/systems/{system_name}` - send a body with this one to update the system
+- `DELETE http://localhost:8080/systems/{system_name}` - delete the system
 
 ### Upcoming and To-Dos
 - [ ] Add a dockerfile and add to docker hub
