@@ -1,0 +1,8 @@
+# compiled output
+/release
+/node/bin
+
+# other stuff
+npm-debug.log
+.DS_Store
+.swp

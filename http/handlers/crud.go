@@ -90,5 +90,5 @@ func DeleteObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	}
 
 	log.Info("Deleted object " + collection + "/" + id)
-	helpers.Respond(w, nil, http.StatusOK)
+	helpers.Respond(w, nil, http.StatusNoContent)
 }

@@ -1,0 +1,24 @@
+{
+  "name": "@covalent/data",
+  "version": "0.1.0",
+  "description": "A golang based mock data server CLI, for use with Teradata Covalent Quickstart",
+  "author": "Ilsun Park <ilsun.park@gmail.com>",
+  "keywords": [
+    "golang",
+    "api"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "node node/install.js 0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Teradata/covalent-data.git"
+  },
+  "bin": {
+    "covalent-data": "./node/bin/covalent-data.prg"
+  },
+  "engines": {
+    "node": ">4.4.5"
+  }
+}
