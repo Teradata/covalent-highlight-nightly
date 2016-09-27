@@ -84,6 +84,81 @@ Once your mock objects are created, run the mock server.  You can then send REST
 - `PUT http://localhost:8080/systems/{system_name}` - send a body with this one to update the system
 - `DELETE http://localhost:8080/systems/{system_name}` - delete the system
 
+#### Charts
+Covalent-data will create realistic chart data that you can use right away in your charts.
+
+##### Step one (create a new mock chart)
+Send a `POST http://localhost:8080/charts` with a body that's formatted as such:
+
+``` json
+{
+  "name": "my new chart",
+	"key": "MyChartKey"
+  "num_data_points": 60,
+  "interval_seconds": 90,
+	"y_axes": [
+    {
+		  "name": "cpu",
+      "function_type": "black_friday" 
+		},
+    {
+		  "name": "hits",
+      "function_type": "sawtooth" 
+		}
+  ]
+}
+```
+
+This will create *60* points, spaced *90 seconds* apart, with two y-axes- `cpu` and `hits`.
+The following `function_types` for Y axes are available:
+
+- `black_friday`
+- `sawtooth`
+- `sine`
+- `slow_rise`
+- `slow_decline`
+- `square`
+- `triangle`
+
+The value you set for `key` is how you will access your mock chart data.  This is an optional value, and if you dont set this, the API will assign a unique key for your mock chart data.
+
+##### Step two (consume chart data)
+Send a `GET http://localhost:8080/charts/MyChartKey` and you will get a JSON array back that looks similar to this:
+```json
+[
+  {
+    "cpu": 3.4086436391430617,
+    "hits": 0,
+    "timestamp": 1474998463
+  },
+  {
+    "cpu": 3.436764648923683,
+    "hits": 1,
+    "timestamp": 1474998523
+  },
+  {
+    "cpu": 4.839440493047819,
+    "hits": 2,
+    "timestamp": 1474998583
+  },
+  {
+    "cpu": 3.871987273635802,
+    "hits": 3,
+    "timestamp": 1474998643
+  },
+  {
+    "cpu": 3.3517529842176668,
+    "hits": 4,
+    "timestamp": 1474998703
+  },
+  {
+    "cpu": 4.161895630999336,
+    "hits": 5,
+    "timestamp": 1474998763
+  }
+]
+```
+
 ### Upcoming and To-Dos
 - [ ] Add a dockerfile and add to docker hub
 - [ ] Link to precompiled binaries

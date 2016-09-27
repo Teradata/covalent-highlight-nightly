@@ -5,7 +5,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	uuid "github.com/satori/go.uuid"
+	id "github.com/ilsiepotamus/gfycatid"
 )
 
 var Sets = map[string]*Set{}
@@ -82,17 +82,21 @@ func DeleteSet(key string) {
 }
 
 // NewSet returns a new set.
-func NewSet(Name string, Length int, IntervalS int) *Set {
-	if Length == 0 || IntervalS == 0 {
+func NewSet(name string, key string, length int, intervalS int) *Set {
+	if length == 0 || intervalS == 0 {
 		return nil
 	}
 
-	key := uuid.NewV4().String()
+	// generate a key if the user doesn't specify one
+	if key == "" {
+		key = id.New()
+	}
+
 	Sets[key] = &Set{
-		Name:      Name,
+		Name:      name,
 		Key:       key,
-		Length:    Length,
-		IntervalS: IntervalS,
+		Length:    length,
+		IntervalS: intervalS,
 		active:    false,
 		stop:      make(chan bool),
 		created:   time.Now().Unix(),

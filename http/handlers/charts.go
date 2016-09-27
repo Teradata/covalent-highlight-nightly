@@ -47,7 +47,7 @@ func CreateChart(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// TODO: check y axis function exists
 
 	// create new chart
-	s := charts.NewSet(c.Name, int(c.NumDataPoints), int(c.IntervalS))
+	s := charts.NewSet(c.Name, c.Key, int(c.NumDataPoints), int(c.IntervalS))
 	if s == nil {
 		log.Error("Malformed request: Length or Interval")
 		// TODO fix the error stuff to accept variadic status
