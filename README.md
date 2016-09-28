@@ -21,6 +21,15 @@ The covalent-data CLI is available to download as a package in the [npm reposito
 1. `npm install @covalent/data -g`
 2. `covalent-data`
 
+#### docker
+To run from docker:
+
+1. Install [Docker Engine](https://docs.docker.com/engine/installation/).
+2. Pull down this repo and `cd` into it.
+3. `docker build -t covalent-data .`
+4. `docker run -p 8080:8080 --name covalent-data covalent-data`
+5. To stop- `docker stop covalent-data`
+
 #### covalent-quickstart
 covalent-data is included in the [covalent-quickstart](https://github.com/Teradata/covalent-quickstart) repo.
 
