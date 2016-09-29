@@ -25,7 +25,9 @@ type YAxis struct {
 
 func ReadChart(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	key := ps.ByName("key")
-	data := charts.GetSetData(key)
+	params := helpers.GetQueryParams(r)
+	data, total := charts.GetSetData(key, params.PerPage)
+	helpers.AddPaginationHeaders(w, total, len(*data), 0)
 	helpers.Respond(w, data, http.StatusOK)
 }
 

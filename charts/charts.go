@@ -2,6 +2,7 @@ package charts
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -23,47 +24,53 @@ type yAxis struct {
 	function function
 }
 
+type length struct {
+	init    int
+	current int
+}
+
 type Set struct {
 	Name      string
 	Key       string
-	Length    int
 	IntervalS int
+	length    *length
 	created   int64
 	stop      chan bool
 	active    bool
-	x         xAxis
-	ys        []yAxis
+	fifo      bool
+	lock      sync.Mutex
+	x         *xAxis
+	ys        []*yAxis
 }
 
 // GetSetData returns an array of data points from the existing set.
-func GetSetData(key string) *[]map[string]interface{} {
-
+// If set length is zero, remove data that's being read
+func GetSetData(key string, length int) (*[]map[string]interface{}, int) {
 	if _, ok := Sets[key]; !ok {
-		return nil
+		return nil, 0
 	}
 
 	s := *Sets[key]
-
-	ma := []map[string]interface{}{}
-	for i := 0; i < s.Length; i++ {
-		m := map[string]interface{}{}
-		m[s.x.name] = s.x.values[i]
-		for _, y := range s.ys {
-			m[y.name] = y.values[i]
-		}
-		ma = append(ma, m)
+	total := s.length.current
+	if length == 0 || length > s.length.current {
+		length = s.length.current
 	}
 
-	return &ma
+	ma := []map[string]interface{}{}
+
+	for i := 0; i < length; i++ {
+		m := s.pop(i)
+		ma = append(ma, m)
+	}
+	return &ma, total
 }
 
 func ListSets() []map[string]interface{} {
 	ma := []map[string]interface{}{}
 	for k, v := range Sets {
 		m := map[string]interface{}{
-			"key":    k,
-			"active": v.active,
-			"name":   v.Name,
+			"key":  k,
+			"name": v.Name,
 		}
 		ma = append(ma, m)
 	}
@@ -82,9 +89,22 @@ func DeleteSet(key string) {
 }
 
 // NewSet returns a new set.
-func NewSet(name string, key string, length int, intervalS int) *Set {
-	if length == 0 || intervalS == 0 {
+func NewSet(name string, key string, l int, intervalS int) *Set {
+	if intervalS == 0 {
 		return nil
+	}
+
+	fifo := true
+
+	// set length to 60 if none is specified
+	if l == 0 {
+		l = 60
+		fifo = false
+	}
+
+	Length := &length{
+		init:    l,
+		current: l,
 	}
 
 	// generate a key if the user doesn't specify one
@@ -95,12 +115,14 @@ func NewSet(name string, key string, length int, intervalS int) *Set {
 	Sets[key] = &Set{
 		Name:      name,
 		Key:       key,
-		Length:    length,
+		length:    Length,
 		IntervalS: intervalS,
 		active:    false,
+		fifo:      fifo,
+		lock:      sync.Mutex{},
 		stop:      make(chan bool),
 		created:   time.Now().Unix(),
-		ys:        []yAxis{},
+		ys:        []*yAxis{},
 	}
 
 	return Sets[key]
@@ -113,16 +135,13 @@ func (s *Set) AddYAxis(name string, fn function) error {
 
 	y := yAxis{
 		name:     name,
-		values:   []float64{},
+		values:   make([]float64, 0),
 		function: fn,
 	}
-	y.values = make([]float64, s.Length)
-
-	for i := 0; i < s.Length; i++ {
-		y.values[i] = fn(i)
+	for i := 0; i < s.length.init; i++ {
+		y.values = append(y.values, fn(i))
 	}
-	s.ys = append(s.ys, y)
-
+	s.ys = append(s.ys, &y)
 	return nil
 }
 
@@ -131,16 +150,23 @@ func (s *Set) createXAxis(name string) {
 
 	x := xAxis{
 		name:   name,
-		values: []int64{},
+		values: make([]int64, 0),
 	}
-	x.values = make([]int64, s.Length)
+	//x.values = make([]int64, s.length)
 
-	for i := 0; i < s.Length; i++ {
-		p := s.Length - i - 1
-		x.values[p] = tick
+	ticks := make([]int64, s.length.init)
+	for i := 0; i < s.length.init; i++ {
+		p := s.length.init - i - 1
+		ticks[p] = tick
 		tick = tick - int64(s.IntervalS)
 	}
-	s.x = x
+
+	for i := 0; i < s.length.init; i++ {
+		x.values = append(x.values, ticks[i])
+		//x.values[p] = tick
+		tick = tick - int64(s.IntervalS)
+	}
+	s.x = &x
 }
 
 func (s *Set) Run() {
@@ -170,10 +196,48 @@ func (s *Set) IsActive() bool {
 }
 
 func (s *Set) push() {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
 	now := time.Now().Unix()
-	i := int((now-s.created)/int64(s.IntervalS)) + (s.Length - 1)
-	s.x.values = append(s.x.values[1:], now)
-	for a, y := range s.ys {
-		s.ys[a].values = append(y.values[1:], y.function(i))
+	i := int((now-s.created)/int64(s.IntervalS)) + (s.length.init - 1)
+
+	if s.fifo {
+		s.x.values = append(s.x.values[1:], now)
+		for a, y := range s.ys {
+			s.ys[a].values = append(y.values[1:], y.function(i))
+		}
+	} else {
+		s.x.values = append(s.x.values, now)
+		for a, y := range s.ys {
+			s.ys[a].values = append(y.values, y.function(i))
+		}
+		s.length.current++
 	}
+}
+
+func (s *Set) pop(i int) map[string]interface{} {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	if s.length.current == 0 {
+		return nil
+	}
+
+	m := map[string]interface{}{}
+
+	if s.fifo {
+		m[s.x.name] = s.x.values[i]
+		for _, y := range s.ys {
+			m[y.name] = y.values[i]
+		}
+	} else {
+		m[s.x.name] = s.x.values[0]
+		s.x.values = s.x.values[1:]
+		for k, y := range s.ys {
+			m[y.name] = y.values[0]
+			s.ys[k].values = y.values[1:]
+		}
+		s.length.current--
+	}
+	return m
 }
