@@ -102,23 +102,27 @@ Send a `POST http://localhost:8080/charts` with a body that's formatted as such:
 ``` json
 {
   "name": "my new chart",
-	"key": "MyChartKey"
+  "key": "MyChartKey",
   "num_data_points": 60,
   "interval_seconds": 90,
-	"y_axes": [
+  "y_axes": [
     {
-		  "name": "cpu",
+      "name": "cpu",
       "function_type": "black_friday" 
-		},
+    },
     {
-		  "name": "hits",
+      "name": "hits",
       "function_type": "sawtooth" 
-		}
+    }
   ]
 }
 ```
 
 This will create *60* points, spaced *90 seconds* apart, with two y-axes- `cpu` and `hits`.
+
+_IMPORTANT NOTE_: if you omit `num_data_points` (or set to 0) then the chart data will disappear as you consume it.  Otherwise,
+you will always get 60 time ordered data points in a queue.
+
 The following `function_types` for Y axes are available:
 
 - `black_friday`
@@ -169,9 +173,6 @@ Send a `GET http://localhost:8080/charts/MyChartKey` and you will get a JSON arr
 ```
 
 ### Upcoming and To-Dos
-- [ ] Add a dockerfile and add to docker hub
-- [ ] Link to precompiled binaries
 - [ ] Update schema detection to use go templates
 - [ ] Godoc support
-- [ ] Mock chart data support
 - [ ] Function support for CRUD seeding
