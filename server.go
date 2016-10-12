@@ -46,6 +46,7 @@ func main() {
 	// add generated endpoints for imported schema objects
 	log.Info("Adding HTTP routes for object CRUD endpoints...")
 	router.AddCrudRoutes(routes)
+	router.AddChartRoutes()
 
 	// start the router and server
 	log.Info("Starting HTTP router and server...")
