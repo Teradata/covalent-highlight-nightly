@@ -1,3 +1,8 @@
+# [0.2.0](https://github.com/Teradata/covalent/tree/0.2.0) (2016-09-28)
+
+## Features
+* Mock chart data
+
 # [0.1.1](https://github.com/Teradata/covalent/tree/0.1.1) (2016-09-23)
 
 ## Features
