@@ -58,7 +58,7 @@ git push --tags origin master
 printf "\nRebasing develop with master version updates...\n"
 git checkout develop
 git pull
-git rebase master
+git merge origin/master
 git commit -am "Update version number in pacakge.json to $new"
 git push
 
