@@ -11,6 +11,13 @@ import (
 )
 
 var router *httprouter.Router
+var server = &http.Server{}
+var c = cors.New(cors.Options{
+	AllowedOrigins:   []string{"*"},
+	AllowCredentials: true,
+	AllowedHeaders:   []string{"*"},
+	AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+})
 
 func Initialize() {
 	router = httprouter.New()
@@ -22,14 +29,12 @@ func Initialize() {
 func Start(port string) {
 
 	log.Info("Adding CORS support")
-	c := cors.New(cors.Options{
-		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
-	})
 	handler := c.Handler(router)
 
 	log.Info("Listening on port :" + port)
-	log.Warn(http.ListenAndServe(":"+port, handler))
+	server.Addr = ":" + port
+	server.Handler = handler
+	log.Warn(server.ListenAndServe())
 }
 
 // Dynamic route addition for CRUD objects
