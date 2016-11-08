@@ -14,13 +14,7 @@ func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	collection := helpers.GetBasePath(r)
 
 	log.Info("Executing ReadObject on " + collection + "/" + id)
-	query := map[string]interface{}{
-		"eq":    id,
-		"in":    []interface{}{"id"},
-		"limit": 1,
-	}
-	cols := []string{"id"}
-	resp, num, _ := crud.Read(collection, cols, query)
+	resp, num, _ := crud.Read(collection, id)
 	if num == 0 {
 		helpers.RespondNotFound(w, id)
 		return
@@ -31,7 +25,7 @@ func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func ReadAllObjects(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	collection := helpers.GetBasePath(r)
 	log.Info("Executing ReadAllObjects on " + collection)
-	data, _, _ := crud.Read(collection, []string{}, "all")
+	data, _, _ := crud.Read(collection, "all")
 	helpers.Respond(w, data, http.StatusOK)
 }
 
@@ -65,7 +59,7 @@ func UpdateObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	log.Info("Executing UpdateObject on " + collection + "/" + id)
 
 	//to do- make all these id's query parameters
-	doc, err := crud.Update(collection, "id", id, b)
+	doc, err := crud.Update(collection, id, b)
 	if err != nil {
 		helpers.RespondServerError(w, "performing an update")
 		log.Error(err)
@@ -82,7 +76,7 @@ func DeleteObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	log.Info("Executing DeleteObject on " + collection + "/" + id)
 
 	//to do- make all these id's query parameters
-	err := crud.Delete(collection, "id", id)
+	err := crud.Delete(collection, id)
 	if err != nil {
 		helpers.RespondServerError(w, "performing a delete")
 		log.Error(err)

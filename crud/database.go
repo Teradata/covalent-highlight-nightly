@@ -14,6 +14,7 @@ import (
 )
 
 var DB *db.DB
+var indices = map[string][]string{}
 
 func ImportSchemas(schemaDir string, datumDir string) []string {
 
@@ -60,6 +61,14 @@ func ImportSchemas(schemaDir string, datumDir string) []string {
 			log.Error("yaml parsing error for ", file.Name(), ": ", err.Error())
 			continue
 		}
+
+		// see if there is an index column specified, or just use "id"
+		index := "id"
+		if i, ok := s["search_index"].(string); ok {
+			index = i
+		}
+		indices[key] = []string{index}
+		delete(s, "search_index")
 
 		// check to see how many seed items to create, if not specified create one
 		numSeeds := 1

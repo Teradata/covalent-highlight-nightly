@@ -2,6 +2,7 @@
 
 ---
 initial_entries: 105
+search_index: "id"
 email: _firstname_._lastname_@_company_.com
 id: _firstname__lastname_
 name: _firstname_ _lastname_
