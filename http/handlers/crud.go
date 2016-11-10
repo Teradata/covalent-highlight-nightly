@@ -12,9 +12,10 @@ import (
 func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	id := ps.ByName("id")
 	collection := helpers.GetBasePath(r)
+	qp := helpers.GetQueryParams(r)
 
 	log.Info("Executing ReadObject on " + collection + "/" + id)
-	resp, num, _ := crud.Read(collection, id)
+	resp, num, _ := crud.Read(collection, id, qp.Sort)
 	if num == 0 {
 		helpers.RespondNotFound(w, id)
 		return
@@ -24,8 +25,9 @@ func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 func ReadAllObjects(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	collection := helpers.GetBasePath(r)
+	qp := helpers.GetQueryParams(r)
 	log.Info("Executing ReadAllObjects on " + collection)
-	data, _, _ := crud.Read(collection, "all")
+	data, _, _ := crud.Read(collection, "all", qp.Sort)
 	helpers.Respond(w, data, http.StatusOK)
 }
 
