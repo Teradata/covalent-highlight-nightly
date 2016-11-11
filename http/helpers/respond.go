@@ -2,9 +2,7 @@ package helpers
 
 import (
 	"encoding/json"
-	"math"
 	"net/http"
-	"strconv"
 )
 
 type Response struct {
@@ -61,17 +59,4 @@ func RespondServerError(w http.ResponseWriter, action string) {
 func RespondBadRequest(w http.ResponseWriter) {
 	message := Response{Message: "Request body must be properly formatted JSON."}
 	Respond(w, message, http.StatusBadRequest)
-}
-
-func AddPaginationHeaders(w http.ResponseWriter, total int, length int, page int) {
-	totalPages := 0
-	if page > 0 {
-		w.Header().Set("X-Page", strconv.Itoa(page))
-	}
-	if length > 0 {
-		totalPages = int(math.Ceil(float64(total) / float64(length)))
-	}
-	w.Header().Set("X-Length", strconv.Itoa(length))
-	w.Header().Set("X-Total", strconv.Itoa(total))
-	w.Header().Set("X-Total-Pages", strconv.Itoa(totalPages))
 }

@@ -12,9 +12,10 @@ import (
 func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	id := ps.ByName("id")
 	collection := helpers.GetBasePath(r)
+	qp := helpers.GetQueryParams(r)
 
 	log.Info("Executing ReadObject on " + collection + "/" + id)
-	resp, num, _ := crud.Read(collection, id)
+	resp, num, _ := crud.Read(collection, id, qp.Sort)
 	if num == 0 {
 		helpers.RespondNotFound(w, id)
 		return
@@ -24,9 +25,33 @@ func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 func ReadAllObjects(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	collection := helpers.GetBasePath(r)
+	qp := helpers.GetQueryParams(r)
+	page := qp.Page
+	perPage := qp.PerPage
+
 	log.Info("Executing ReadAllObjects on " + collection)
-	data, _, _ := crud.Read(collection, "all")
-	helpers.Respond(w, data, http.StatusOK)
+	data, total, _ := crud.Read(collection, "all", qp.Sort)
+
+	if total == 0 {
+		helpers.RespondNotFound(w, collection)
+		return
+	}
+
+	// if page is 0, send everything
+	if page == 0 {
+		helpers.AddPaginationHeaders(w, total, total, 1)
+		helpers.Respond(w, data, http.StatusOK)
+		return
+	}
+
+	// if per_page > 0 but no page, send first page
+	if perPage == 0 && page > 0 {
+		perPage = 50
+	}
+
+	pageSlice, perPage := helpers.GetPageSlice(data, perPage, page)
+	helpers.AddPaginationHeaders(w, total, perPage, page)
+	helpers.Respond(w, pageSlice, http.StatusOK)
 }
 
 func CreateObject(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
