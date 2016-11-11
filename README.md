@@ -93,6 +93,9 @@ Once your mock objects are created, run the mock server.  You can then send REST
 - `PUT http://localhost:8080/systems/{system_name}` - send a body with this one to update the system
 - `DELETE http://localhost:8080/systems/{system_name}` - delete the system
 
+We also support sorting and paging:
+- `GET http://localhost:8080/users?sort={asc|desc}:{sortOnValue}&page=1&per_page=50`
+
 #### Charts
 Covalent-data will create realistic chart data that you can use right away in your charts.
 

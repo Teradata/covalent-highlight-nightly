@@ -2,6 +2,7 @@ package crud
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/HouzuoGuo/tiedot/db"
 	log "github.com/Sirupsen/logrus"
@@ -25,7 +26,7 @@ func Create(collection string, doc *map[string]interface{}) (int, error) {
 	return docID, nil
 }
 
-func Read(collection string, id interface{}) ([]map[string]interface{}, int, error) {
+func Read(collection string, id interface{}, sort string) ([]map[string]interface{}, int, error) {
 	var results []map[string]interface{}
 	queryResult := make(map[int]struct{})
 	query := map[string]interface{}{
@@ -56,6 +57,11 @@ func Read(collection string, id interface{}) ([]map[string]interface{}, int, err
 			continue
 		}
 		results = append(results, rb)
+	}
+
+	sortOpts := strings.Split(sort, ":")
+	if len(sortOpts) == 2 {
+		results = Sort(results, sortOpts[0], sortOpts[1])
 	}
 
 	return results, len(results), nil
