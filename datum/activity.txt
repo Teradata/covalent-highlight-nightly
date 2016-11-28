@@ -1,15 +1,5 @@
-active
-active
-active
-active
-active
-active
-active
-active
-active
-inactive
-inactive
-inactive
-inactive
-inactive
-inactive
+updated account
+made a deposit
+changed refresh settings on their account
+liked the latest announcements
+sent a personal message
