@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/HouzuoGuo/tiedot/db"
@@ -31,7 +32,9 @@ func ImportSchemas(schemaDir string, datumDir string) []string {
 		return []string{}
 	}
 
-	DBDir := os.TempDir() + "atomic-data"
+	f, _ := filepath.Abs(".")
+
+	DBDir := f + "/tmp"
 	os.RemoveAll(DBDir)
 	defer os.RemoveAll(DBDir)
 
