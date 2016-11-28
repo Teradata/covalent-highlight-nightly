@@ -1,0 +1,75 @@
+{
+	"ImportPath": "github.com/Teradata/covalent-data",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v75",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/data",
+			"Comment": "3.3-9-gc0adec7",
+			"Rev": "c0adec79177ce34d1c160adbf26d640c1adecfd8"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/db",
+			"Comment": "3.3-9-gc0adec7",
+			"Rev": "c0adec79177ce34d1c160adbf26d640c1adecfd8"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/dberr",
+			"Comment": "3.3-9-gc0adec7",
+			"Rev": "c0adec79177ce34d1c160adbf26d640c1adecfd8"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/gommap",
+			"Comment": "3.3-9-gc0adec7",
+			"Rev": "c0adec79177ce34d1c160adbf26d640c1adecfd8"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/tdlog",
+			"Comment": "3.3-9-gc0adec7",
+			"Rev": "c0adec79177ce34d1c160adbf26d640c1adecfd8"
+		},
+		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.10.0",
+			"Rev": "4b6ea7319e214d98c938f12692336f7ca9348d6b"
+		},
+		{
+			"ImportPath": "github.com/ilsiepotamus/gfycatid",
+			"Rev": "35612b914ffa32413d4d9118981931f958a18aaa"
+		},
+		{
+			"ImportPath": "github.com/ilsiepotamus/gfycatid/assets",
+			"Rev": "35612b914ffa32413d4d9118981931f958a18aaa"
+		},
+		{
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Comment": "v1.1-29-g77366a4",
+			"Rev": "77366a47451a56bb3ba682481eed85b64fea14e8"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.0",
+			"Rev": "a62a804a8a009876ca59105f7899938a1349f4b3"
+		},
+		{
+			"ImportPath": "github.com/rs/xhandler",
+			"Comment": "v1.0-1-ged27b6f",
+			"Rev": "ed27b6fd65218132ee50cd95f38474a3d8a2cd12"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "bc3663df0ac92f928d419e31e0d2af22e683a5a2"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "30237cf4eefd639b184d1f2cb77a581ea0be8947"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "e4d366fc3c7938e2958e662b4258c7a89e1f0e3e"
+		}
+	]
+}
