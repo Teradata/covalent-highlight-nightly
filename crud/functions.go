@@ -15,8 +15,8 @@ var funcMap = template.FuncMap{
 	"randomNumber": randomNumber,
 }
 
-func randomNumber() int {
-	return rand.Intn(1000000)
+func randomNumber(maxnum int) int {
+	return rand.Intn(maxnum)
 }
 
 func UUID() string {
