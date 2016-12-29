@@ -1,7 +1,7 @@
 # compiled output
 /release
 /node/bin
-/tmp
+/.tmp
 /vendor
 
 # other stuff

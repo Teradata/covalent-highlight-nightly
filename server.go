@@ -41,7 +41,7 @@ func main() {
 
 	// import schemas and mock data
 	log.Info("Importing schemas for CRUD objects and seeding initial mock data...")
-	routes := crud.ImportSchemas(*sDir, *dDir)
+	routes := crud.SeedDB(*sDir, *dDir)
 
 	// add generated endpoints for imported schema objects
 	log.Info("Adding HTTP routes for object CRUD endpoints...")
