@@ -13,7 +13,7 @@ display_name: {{.firstname}} {{.lastname}}
 id: {{toLower(.firstname)}}.{{toLower(.lastname)}}
 email: {{toLower(.firstname)}}.{{toLower(.lastname)}}@{{.company}}.com
 mailing_address:
-{{embed(address.yaml)}}
+ {{embed(address.yaml)}}
 created: {{.createdtimestamp}}
 last_access: {{.itemtimestamp}}
 site_admin: {{.admin}}
