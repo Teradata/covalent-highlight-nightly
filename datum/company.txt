@@ -1,4 +1,7 @@
 teradata
-ebay
-apple
-amazon
+gmail
+yahoo
+hotmail
+outlook
+msn
+blue

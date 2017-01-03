@@ -1,0 +1,6 @@
+# embed_me
+address_1: {{randomNumber(20000)}} {{.streetname}} {{.roadtype}}
+address_2: Apt. {{randomNumber(20)}}
+city: {{.city}}
+state: {{.state}}
+zip: 90210
