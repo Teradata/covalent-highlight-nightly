@@ -1,3 +1,6 @@
+# [0.5.1](https://github.com/Teradata/covalent/tree/0.5.1) (2017-01-04)
+* Docs update
+
 # [0.5.0](https://github.com/Teradata/covalent/tree/0.5.0) (2016-12-29)
 
 ## Features
