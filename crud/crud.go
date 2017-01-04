@@ -8,8 +8,10 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
+var indices = map[string][]string{}
+
 func Create(collection string, doc *map[string]interface{}) (int, error) {
-	if !CheckIfCollectionExists(collection, DB) {
+	if !CheckIfCollectionExists(collection) {
 		errmsg := collection + " collection does not exist."
 		log.Error(errmsg)
 		return 0, fmt.Errorf(errmsg)
@@ -34,7 +36,6 @@ func Read(collection string, id interface{}, sort string) ([]map[string]interfac
 		"in":    []interface{}{indices[collection][0]},
 		"limit": 1,
 	}
-
 	t := DB.Use(collection)
 	t.Index(indices[collection])
 
@@ -68,7 +69,7 @@ func Read(collection string, id interface{}, sort string) ([]map[string]interfac
 }
 
 func Update(collection string, id string, doc *map[string]interface{}) (map[string]interface{}, error) {
-	if !CheckIfCollectionExists(collection, DB) {
+	if !CheckIfCollectionExists(collection) {
 		errmsg := collection + " collection does not exist."
 		log.Error(errmsg)
 		return nil, fmt.Errorf(errmsg)

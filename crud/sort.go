@@ -1,48 +1,46 @@
 package crud
 
 import (
-	//"fmt"
 	"sort"
-	//log "github.com/Sirupsen/logrus"
 )
 
 var more = false
 
-type Object struct {
+type Document struct {
 	Key  interface{}
 	Item map[string]interface{}
 }
 
-type Objects []Object
+type Documents []Document
 
-func (o Objects) Len() int {
-	return len(o)
+func (d Documents) Len() int {
+	return len(d)
 }
 
-func (o Objects) Less(i, j int) bool {
-	switch v := o[i].Key.(type) {
+func (d Documents) Less(i, j int) bool {
+	switch v := d[i].Key.(type) {
 	case string:
 		if more {
-			return v > o[j].Key.(string)
+			return v > d[j].Key.(string)
 		}
-		return v < o[j].Key.(string)
+		return v < d[j].Key.(string)
 	case int:
 		if more {
-			return v > o[j].Key.(int)
+			return v > d[j].Key.(int)
 		}
-		return v < o[j].Key.(int)
+		return v < d[j].Key.(int)
 	case float64:
 		if more {
-			return v > o[j].Key.(float64)
+			return v > d[j].Key.(float64)
 		}
-		return v < o[j].Key.(float64)
+		return v < d[j].Key.(float64)
 	default:
 		return false
 	}
 }
 
-func (o Objects) Swap(i, j int) {
-	o[i], o[j] = o[j], o[i]
+func (d Documents) Swap(i, j int) {
+	d[i], d[j] = d[j], d[i]
 }
 
 func Sort(slice []map[string]interface{}, direction string, column string) []map[string]interface{} {
@@ -55,21 +53,21 @@ func Sort(slice []map[string]interface{}, direction string, column string) []map
 	} else {
 		more = false
 	}
-	objects := Objects{}
+	documents := Documents{}
 	for _, v := range slice {
 		if _, ok := v[column]; ok {
-			o := Object{
+			d := Document{
 				Key:  v[column],
 				Item: v,
 			}
-			objects = append(objects, o)
+			documents = append(documents, d)
 		} else {
 			return slice
 		}
 	}
-	sort.Sort(objects)
+	sort.Sort(documents)
 	sorted := []map[string]interface{}{}
-	for _, v := range objects {
+	for _, v := range documents {
 		sorted = append(sorted, v.Item)
 	}
 

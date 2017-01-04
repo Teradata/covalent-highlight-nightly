@@ -1,3 +1,14 @@
+# [0.5.1](https://github.com/Teradata/covalent/tree/0.5.1) (2017-01-04)
+* Docs update
+
+# [0.5.0](https://github.com/Teradata/covalent/tree/0.5.0) (2016-12-29)
+
+## Features
+* Much more powerful Go template based schema rendering
+* Embeddable schemas
+* Built in schema functions
+* [New documentation] (https://ilsiepotamus.gitbooks.io/covalent-data/content/) (still a WIP)
+
 # [0.2.0](https://github.com/Teradata/covalent/tree/0.2.0) (2016-09-28)
 
 ## Features
