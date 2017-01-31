@@ -1,0 +1,14 @@
+---
+
+interval_seconds: 2
+name: "My Chart"
+key: "mychart"
+length: 60
+y_axes:
+ -
+   name: "hits"
+   function_type: "black_friday"
+ -
+   name: "pyramid"
+   function_type: "sawtooth"
+...

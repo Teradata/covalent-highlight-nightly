@@ -6,6 +6,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/Teradata/covalent-data/charts"
 	"github.com/Teradata/covalent-data/crud"
 	"github.com/Teradata/covalent-data/router"
 )
@@ -18,11 +19,13 @@ func main() {
 	// directories to look for schema and datum data
 	schemaDir := f + "/schemas"
 	datumDir := f + "/datum"
+	chartDir := f + "/chartdir"
 
 	// define command line flags here.
 	port := flag.String("port", "8080", "port to listen on")
 	sDir := flag.String("schemadir", schemaDir, "absolute directory where schemas are located")
 	dDir := flag.String("datumdir", datumDir, "absolute directory where datum is located")
+	cDir := flag.String("chartdir", chartDir, "absolute directory where charts located")
 	flag.Parse()
 
 	// copyright and stuff.
@@ -42,10 +45,12 @@ func main() {
 	// import schemas and mock data
 	log.Info("Importing schemas for CRUD objects and seeding initial mock data...")
 	routes := crud.SeedDB(*sDir, *dDir)
+	charts.SeedCharts(*cDir)
 
 	// add generated endpoints for imported schema objects
 	log.Info("Adding HTTP routes for object CRUD endpoints...")
 	router.AddCrudRoutes(routes)
+	log.Info("Adding HTTP routes for mock chart data endpoints...")
 	router.AddChartRoutes()
 
 	// start the router and server
