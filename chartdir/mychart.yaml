@@ -9,6 +9,6 @@ y_axes:
    name: "hits"
    function_type: "black_friday"
  -
-   name: "pyramid"
+   name: "sales"
    function_type: "sawtooth"
 ...
