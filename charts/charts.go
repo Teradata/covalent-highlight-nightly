@@ -15,7 +15,7 @@ type function func(int) float64
 
 type xAxis struct {
 	name   string
-	values []int64
+	values []string
 }
 
 type yAxis struct {
@@ -145,31 +145,30 @@ func (s *Set) AddYAxis(name string, fn function) error {
 	return nil
 }
 
-func (s *Set) createXAxis(name string) {
+func (s *Set) createXAxis(name string, format string) {
 	tick := s.created
 
 	x := xAxis{
 		name:   name,
-		values: make([]int64, 0),
+		values: make([]string, 0),
 	}
 
-	ticks := make([]int64, s.length.init)
+	ticks := make([]string, s.length.init)
 	for i := 0; i < s.length.init; i++ {
 		p := s.length.init - i - 1
-		ticks[p] = tick
+		ticks[p] = time.Unix(tick, 0).Format(format)
 		tick = tick - int64(s.IntervalS)
 	}
 
 	for i := 0; i < s.length.init; i++ {
 		x.values = append(x.values, ticks[i])
-		//x.values[p] = tick
 		tick = tick - int64(s.IntervalS)
 	}
 	s.x = &x
 }
 
-func (s *Set) Run() {
-	s.createXAxis("timestamp")
+func (s *Set) Run(xAxisName string, xAxisFormat string) {
+	s.createXAxis(xAxisName, xAxisFormat)
 	s.active = true
 	go func() {
 		for {
@@ -179,7 +178,7 @@ func (s *Set) Run() {
 				return
 			default:
 				time.Sleep(time.Duration(s.IntervalS) * time.Second)
-				s.push()
+				s.push(xAxisFormat)
 			}
 		}
 	}()
@@ -194,7 +193,7 @@ func (s *Set) IsActive() bool {
 	return s.active
 }
 
-func (s *Set) push() {
+func (s *Set) push(xAxisFormat string) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -202,12 +201,12 @@ func (s *Set) push() {
 	i := int((now-s.created)/int64(s.IntervalS)) + (s.length.init - 1)
 
 	if s.fifo {
-		s.x.values = append(s.x.values[1:], now)
+		s.x.values = append(s.x.values[1:], time.Unix(now, 0).Format(xAxisFormat))
 		for a, y := range s.ys {
 			s.ys[a].values = append(y.values[1:], y.function(i))
 		}
 	} else {
-		s.x.values = append(s.x.values, now)
+		s.x.values = append(s.x.values, time.Unix(now, 0).Format(xAxisFormat))
 		for a, y := range s.ys {
 			s.ys[a].values = append(y.values, y.function(i))
 		}

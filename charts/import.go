@@ -86,7 +86,7 @@ func createChart(c map[string]interface{}) {
 	}
 
 	// start it
-	s.Run()
+	s.Run(c["x_axis_name"].(string), c["x_axis_format"].(string))
 	log.Info("Created chart ", c["name"].(string), " at endpoint /charts/", c["key"].(string))
 }
 

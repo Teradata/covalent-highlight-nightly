@@ -2,13 +2,26 @@
 
 interval_seconds: 2
 name: "My Chart"
+
+# optional key- will set the endpoint name to /charts/mychart
 key: "mychart"
+
+# optional number of data points to return on a read- if omitted, a read
+# will only return UNREAD data
 length: 60
+
+# json name of x_axis data
+x_axis_name: "timestamp"
+
+# string timestamp format of x_axis data
+# you MUST use the following values if formatting your own custom string:
+# Mon, Jan, 2, 15:04:05, 2006, -7
+x_axis_format: "Jan _2 15:04:05.000000000"
 y_axes:
  -
    name: "hits"
    function_type: "black_friday"
  -
-   name: "pyramid"
+   name: "sales"
    function_type: "sawtooth"
 ...
