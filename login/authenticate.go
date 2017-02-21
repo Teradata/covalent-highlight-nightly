@@ -37,6 +37,7 @@ func Authenticate(credentials *map[string]interface{}) (*map[string]interface{},
 
 	log.Info("Authentication attempt succeeded for user ", user)
 
+	u[0]["username"] = user
+
 	return &u[0], nil
-	return nil, nil
 }
