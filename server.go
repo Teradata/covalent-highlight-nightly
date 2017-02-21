@@ -52,6 +52,8 @@ func main() {
 	router.AddCrudRoutes(routes)
 	log.Info("Adding HTTP routes for mock chart data endpoints...")
 	router.AddChartRoutes()
+	log.Info("Adding HTTP routes for login endpoints...")
+	router.AddLoginRoutes()
 
 	// start the router and server
 	log.Info("Starting HTTP router and server...")
