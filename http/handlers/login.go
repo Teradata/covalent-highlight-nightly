@@ -22,7 +22,7 @@ func RequestToken(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	token, err := login.RequestToken(b)
 	if err != nil {
-		helpers.RespondServerError(w, "could not retrieve token")
+		helpers.RespondUnauthorized(w)
 		return
 	}
 	t := *token
