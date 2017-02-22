@@ -62,3 +62,8 @@ func AddChartRoutes() {
 	router.GET("/charts", handlers.GetCharts)
 	router.GET("/charts/:key", handlers.ReadChart)
 }
+
+// Add login routes
+func AddLoginRoutes() {
+	router.POST("/login", handlers.RequestToken)
+}

@@ -7,7 +7,7 @@
 # objects.
 initial_entries: 5
 randomize: false
-search_index: database_id
+search_index: id
 
 display_name: {{.firstname}} {{.lastname}}
 id: {{toLower(.firstname)}}.{{toLower(.lastname)}}

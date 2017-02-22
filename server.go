@@ -8,7 +8,7 @@ import (
 
 	"github.com/Teradata/covalent-data/charts"
 	"github.com/Teradata/covalent-data/crud"
-	"github.com/Teradata/covalent-data/router"
+	"github.com/Teradata/covalent-data/http/router"
 )
 
 func main() {
@@ -17,9 +17,9 @@ func main() {
 	f, _ := filepath.Abs(".")
 
 	// directories to look for schema and datum data
-	schemaDir := f + "/schemas"
-	datumDir := f + "/datum"
-	chartDir := f + "/chartdir"
+	schemaDir := f + "/config/schemas"
+	datumDir := f + "/config/datum"
+	chartDir := f + "/config/chartdir"
 
 	// define command line flags here.
 	port := flag.String("port", "8080", "port to listen on")
@@ -52,6 +52,8 @@ func main() {
 	router.AddCrudRoutes(routes)
 	log.Info("Adding HTTP routes for mock chart data endpoints...")
 	router.AddChartRoutes()
+	log.Info("Adding HTTP routes for login endpoints...")
+	router.AddLoginRoutes()
 
 	// start the router and server
 	log.Info("Starting HTTP router and server...")
