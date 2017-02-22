@@ -60,3 +60,8 @@ func RespondBadRequest(w http.ResponseWriter) {
 	message := Response{Message: "Request body must be properly formatted JSON."}
 	Respond(w, message, http.StatusBadRequest)
 }
+
+func RespondUnauthorized(w http.ResponseWriter) {
+	message := Response{Message: "Invalid username or password."}
+	Respond(w, message, http.StatusUnauthorized)
+}
