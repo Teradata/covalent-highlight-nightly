@@ -6,10 +6,9 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/Teradata/covalent-data/http/helpers"
 	"github.com/Teradata/covalent-data/login"
-	"github.com/julienschmidt/httprouter"
 )
 
-func RequestToken(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func RequestToken(w http.ResponseWriter, r *http.Request) {
 	//collection := helpers.GetBasePath(r)
 	b := &map[string]interface{}{}
 	helpers.GetRequestBody(r, b)

@@ -3,38 +3,39 @@ package router
 import (
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
-	"github.com/julienschmidt/httprouter"
-	"github.com/rs/cors"
-
 	"github.com/Teradata/covalent-data/http/handlers"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/goware/cors"
+	"github.com/pressly/chi"
+	"github.com/pressly/chi/middleware"
 )
 
-var router *httprouter.Router
-var server = &http.Server{}
+var router chi.Router
 var c = cors.New(cors.Options{
 	AllowedOrigins:   []string{"*"},
-	AllowCredentials: true,
 	AllowedHeaders:   []string{"*"},
-	AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+	AllowedMethods:   []string{"Get", "Post", "Put", "Patch", "Delete"},
+	AllowCredentials: true,
 })
 
 func Initialize() {
-	router = httprouter.New()
-	router.GET("/", handlers.Home)
-	router.GET("/health", handlers.Health)
-	router.GET("/ping", handlers.Ping)
+	router = chi.NewRouter()
+
+	// add middlewares
+	router.Use(c.Handler)
+	router.Use(middleware.StripSlashes)
+
+	// add unprotected routes
+	router.Get("/", handlers.Home)
+	router.Get("/health", handlers.Health)
+	router.Get("/ping", handlers.Ping)
 }
 
 func Start(port string) {
-
-	log.Info("Adding CORS support")
-	handler := c.Handler(router)
-
 	log.Info("Listening on port :" + port)
-	server.Addr = ":" + port
-	server.Handler = handler
-	log.Warn(server.ListenAndServe())
+	addr := ":" + port
+	log.Warn(http.ListenAndServe(addr, router))
 }
 
 // Dynamic route addition for CRUD objects
@@ -48,22 +49,22 @@ func AddCrudRoutes(endpoints []string) {
 		if endpoint == "" {
 			continue
 		}
-		router.GET("/"+endpoint, handlers.ReadAllObjects)
-		router.GET("/"+endpoint+"/:id", handlers.ReadObject)
-		router.POST("/"+endpoint, handlers.CreateObject)
-		router.PATCH("/"+endpoint+"/:id", handlers.UpdateObject)
-		router.PUT("/"+endpoint+"/:id", handlers.UpdateObject)
-		router.DELETE("/"+endpoint+"/:id", handlers.DeleteObject)
+		router.Get("/"+endpoint, handlers.ReadAllObjects)
+		router.Get("/"+endpoint+"/:id", handlers.ReadObject)
+		router.Post("/"+endpoint, handlers.CreateObject)
+		router.Patch("/"+endpoint+"/:id", handlers.UpdateObject)
+		router.Put("/"+endpoint+"/:id", handlers.UpdateObject)
+		router.Delete("/"+endpoint+"/:id", handlers.DeleteObject)
 	}
 }
 
 // Add chart API routes
 func AddChartRoutes() {
-	router.GET("/charts", handlers.GetCharts)
-	router.GET("/charts/:key", handlers.ReadChart)
+	router.Get("/charts", handlers.GetCharts)
+	router.Get("/charts/:key", handlers.ReadChart)
 }
 
 // Add login routes
 func AddLoginRoutes() {
-	router.POST("/login", handlers.RequestToken)
+	router.Post("/login", handlers.RequestToken)
 }
