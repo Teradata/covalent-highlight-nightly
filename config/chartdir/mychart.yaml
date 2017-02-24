@@ -13,8 +13,8 @@ length: 60
 # json name of x_axis data
 x_axis_name: "timestamp"
 
-# ng2d3 consumable data
-ng2d3: true
+# ngx-charts consumable data
+ngx: true
 
 # string timestamp format of x_axis data
 # you MUST use the following values if formatting your own custom string:

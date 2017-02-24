@@ -41,7 +41,7 @@ type Set struct {
 	lock      sync.Mutex
 	x         *xAxis
 	ys        []*yAxis
-	ng2d3     bool
+	ngx       bool
 }
 
 // GetSetData returns an array of data points from the existing set.
@@ -59,7 +59,7 @@ func GetSetData(key string, length int) (*[]map[string]interface{}, int) {
 
 	ma := []map[string]interface{}{}
 
-	if s.ng2d3 {
+	if s.ngx {
 		for k, y := range s.ys {
 			series := []map[string]interface{}{}
 			for i := 0; i < length; i++ {
@@ -141,7 +141,7 @@ func NewSet(name string, key string, l int, intervalS int) *Set {
 		stop:      make(chan bool),
 		created:   time.Now().Unix(),
 		ys:        []*yAxis{},
-		ng2d3:     false,
+		ngx:       false,
 	}
 
 	return Sets[key]

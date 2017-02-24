@@ -75,9 +75,9 @@ func createChart(c map[string]interface{}) {
 		return
 	}
 
-	// ng2d3 compatability
-	if v, ok := c["ng2d3"].(bool); ok {
-		s.ng2d3 = v
+	// ngx-charts compatability
+	if v, ok := c["ngx"].(bool); ok {
+		s.ngx = v
 	}
 
 	// add y axes
