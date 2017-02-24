@@ -74,6 +74,12 @@ func createChart(c map[string]interface{}) {
 		log.Error("Malformed request: Length or Interval")
 		return
 	}
+
+	// ngx-charts compatability
+	if v, ok := c["ngx"].(bool); ok {
+		s.ngx = v
+	}
+
 	// add y axes
 	for _, y := range c["y_axes"].([]interface{}) {
 		yaxis := y.(map[string]interface{})

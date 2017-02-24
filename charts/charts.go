@@ -41,6 +41,7 @@ type Set struct {
 	lock      sync.Mutex
 	x         *xAxis
 	ys        []*yAxis
+	ngx       bool
 }
 
 // GetSetData returns an array of data points from the existing set.
@@ -57,6 +58,23 @@ func GetSetData(key string, length int) (*[]map[string]interface{}, int) {
 	}
 
 	ma := []map[string]interface{}{}
+
+	if s.ngx {
+		for k, y := range s.ys {
+			series := []map[string]interface{}{}
+			for i := 0; i < length; i++ {
+				m := s.popD3(i)[k]
+				series = append(series, m)
+			}
+			yAxisData := map[string]interface{}{
+				"series": series,
+				"name":   y.name,
+			}
+			ma = append(ma, yAxisData)
+		}
+
+		return &ma, total
+	}
 
 	for i := 0; i < length; i++ {
 		m := s.pop(i)
@@ -123,6 +141,7 @@ func NewSet(name string, key string, l int, intervalS int) *Set {
 		stop:      make(chan bool),
 		created:   time.Now().Unix(),
 		ys:        []*yAxis{},
+		ngx:       false,
 	}
 
 	return Sets[key]
@@ -237,5 +256,24 @@ func (s *Set) pop(i int) map[string]interface{} {
 		}
 		s.length.current--
 	}
+	return m
+}
+
+func (s *Set) popD3(i int) []map[string]interface{} {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	if s.length.current == 0 {
+		return nil
+	}
+
+	m := []map[string]interface{}{}
+
+	for k, _ := range s.ys {
+		t := map[string]interface{}{}
+		t["name"] = s.x.values[i]
+		t["value"] = s.ys[k].values[i]
+		m = append(m, t)
+	}
+
 	return m
 }
