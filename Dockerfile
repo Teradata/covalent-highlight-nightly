@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.8
 
 ADD . /go/src/github.com/Teradata/covalent-data
 WORKDIR /go/src/github.com/Teradata/covalent-data

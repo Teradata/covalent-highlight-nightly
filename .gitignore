@@ -2,7 +2,6 @@
 /release
 /node/bin
 /.tmp
-/vendor
 
 # other stuff
 npm-debug.log

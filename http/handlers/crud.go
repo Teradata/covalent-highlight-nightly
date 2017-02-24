@@ -6,11 +6,11 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/Teradata/covalent-data/crud"
 	"github.com/Teradata/covalent-data/http/helpers"
-	"github.com/julienschmidt/httprouter"
+	"github.com/pressly/chi"
 )
 
-func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	id := ps.ByName("id")
+func ReadObject(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
 	collection := helpers.GetBasePath(r)
 	qp := helpers.GetQueryParams(r)
 
@@ -23,7 +23,7 @@ func ReadObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	helpers.Respond(w, resp[0], http.StatusOK)
 }
 
-func ReadAllObjects(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func ReadAllObjects(w http.ResponseWriter, r *http.Request) {
 	collection := helpers.GetBasePath(r)
 	qp := helpers.GetQueryParams(r)
 	page := qp.Page
@@ -54,7 +54,7 @@ func ReadAllObjects(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	helpers.Respond(w, pageSlice, http.StatusOK)
 }
 
-func CreateObject(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func CreateObject(w http.ResponseWriter, r *http.Request) {
 	collection := helpers.GetBasePath(r)
 	b := &map[string]interface{}{}
 	helpers.GetRequestBody(r, b)
@@ -76,8 +76,8 @@ func CreateObject(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 }
 
-func UpdateObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	id := ps.ByName("id")
+func UpdateObject(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
 	collection := helpers.GetBasePath(r)
 	b := &map[string]interface{}{}
 	helpers.GetRequestBody(r, b)
@@ -95,8 +95,8 @@ func UpdateObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	helpers.Respond(w, doc, http.StatusOK)
 }
 
-func DeleteObject(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	id := ps.ByName("id")
+func DeleteObject(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
 	collection := helpers.GetBasePath(r)
 	log.Info("Executing DeleteObject on " + collection + "/" + id)
 
