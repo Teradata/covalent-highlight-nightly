@@ -74,6 +74,12 @@ func createChart(c map[string]interface{}) {
 		log.Error("Malformed request: Length or Interval")
 		return
 	}
+
+	// ng2d3 compatability
+	if v, ok := c["ng2d3"].(bool); ok {
+		s.ng2d3 = v
+	}
+
 	// add y axes
 	for _, y := range c["y_axes"].([]interface{}) {
 		yaxis := y.(map[string]interface{})
