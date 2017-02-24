@@ -4,11 +4,10 @@ import (
 	"flag"
 	"path/filepath"
 
-	log "github.com/Sirupsen/logrus"
-
-	"github.com/Teradata/covalent-data/charts"
-	"github.com/Teradata/covalent-data/crud"
+	"github.com/Teradata/covalent-data/config"
 	"github.com/Teradata/covalent-data/http/router"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 func main() {
@@ -38,24 +37,10 @@ func main() {
 	log.Info("##################################################################")
 	log.Info("")
 
+	go config.Watch([]string{*sDir, *dDir, *cDir})
+
 	// initialize the router with default routes.
 	log.Info("Initializing HTTP router...")
-	router.Initialize()
-
-	// import schemas and mock data
-	log.Info("Importing schemas for CRUD objects and seeding initial mock data...")
-	routes := crud.SeedDB(*sDir, *dDir)
-	charts.SeedCharts(*cDir)
-
-	// add generated endpoints for imported schema objects
-	log.Info("Adding HTTP routes for object CRUD endpoints...")
-	router.AddCrudRoutes(routes)
-	log.Info("Adding HTTP routes for mock chart data endpoints...")
-	router.AddChartRoutes()
-	log.Info("Adding HTTP routes for login endpoints...")
-	router.AddLoginRoutes()
-
-	// start the router and server
-	log.Info("Starting HTTP router and server...")
+	router.Initialize(*sDir, *dDir, *cDir)
 	router.Start(*port)
 }
