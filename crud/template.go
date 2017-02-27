@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"text/template"
 
+	"github.com/Teradata/covalent-data/funcs"
+
 	log "github.com/Sirupsen/logrus"
 )
 
@@ -14,7 +16,7 @@ func (t Template) String() string {
 }
 
 func executeTemplate(byteStream []byte, vars map[string]interface{}) []byte {
-	tmpl, err := template.New("tmp").Funcs(funcMap).Parse(string(byteStream))
+	tmpl, err := template.New("tmp").Funcs(funcs.FuncMap).Parse(string(byteStream))
 	if err != nil {
 		log.Error("Could not parse the file:", err)
 		return []byte{}

@@ -1,4 +1,4 @@
-package crud
+package funcs
 
 import (
 	"math/rand"
@@ -8,10 +8,12 @@ import (
 	"github.com/satori/go.uuid"
 )
 
-var funcMap = template.FuncMap{
+var FuncMap = template.FuncMap{
 	"uuid":         UUID,
 	"toLower":      toLower,
 	"toUpper":      toUpper,
+	"titleCase":    titleCase,
+	"trimSpaces":   trimSpaces,
 	"randomNumber": randomNumber,
 }
 
@@ -36,6 +38,24 @@ func toUpper(in interface{}) interface{} {
 	switch in.(type) {
 	case string:
 		return strings.ToUpper(in.(string))
+	default:
+		return in
+	}
+}
+
+func titleCase(in interface{}) interface{} {
+	switch in.(type) {
+	case string:
+		return strings.ToUpper(string([]byte{in.(string)[0]})) + strings.ToLower(in.(string)[1:])
+	default:
+		return in
+	}
+}
+
+func trimSpaces(in interface{}) interface{} {
+	switch in.(type) {
+	case string:
+		return strings.Replace(in.(string), " ", "", -1)
 	default:
 		return in
 	}
