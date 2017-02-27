@@ -1,4 +1,10 @@
 # covalent-data
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+[![Gitbook](https://img.shields.io/badge/gitbook-reference-brightgreen.svg)[(https://ilsiepotamus.gitbooks.io/covalent-data/content/)
+[![Travis branch](https://img.shields.io/travis/Teradata/covalent-data/develop.svg)](https://travis-ci.org/Teradata/covalent-data)
+[![npm (scoped)](https://img.shields.io/npm/v/@covalent/data.svg)](https://www.npmjs.com/package/@covalent/data)
+
+
 ## Golang based mock api server
 
 Latest install docs and user guide can be found [here](https://www.gitbook.com/book/ilsiepotamus/covalent-data).
