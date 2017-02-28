@@ -7,15 +7,16 @@
 # objects.
 initial_entries: 5
 randomize: false
-search_index: id
+search_index: username
 
 display_name: {{.firstname}} {{.lastname}}
+username: {{toLower(.firstname)}}.{{toLower(.lastname)}}
 id: {{toLower(.firstname)}}.{{toLower(.lastname)}}
 email: {{toLower(.firstname)}}.{{toLower(.lastname)}}@{{.company}}.com
 mailing_address:
  {{embed(address.yaml)}}
 created: {{.createdtimestamp}}
 last_access: {{.itemtimestamp}}
-site_admin: {{.admin}}
+site_admin: {{boolean(0.10)}}
 database_id: {{uuid()}}
 ...

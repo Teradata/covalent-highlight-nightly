@@ -15,6 +15,7 @@ var FuncMap = template.FuncMap{
 	"titleCase":    titleCase,
 	"trimSpaces":   trimSpaces,
 	"randomNumber": randomNumber,
+	"boolean":      boolean,
 }
 
 func randomNumber(maxnum int) int {
@@ -58,5 +59,17 @@ func trimSpaces(in interface{}) interface{} {
 		return strings.Replace(in.(string), " ", "", -1)
 	default:
 		return in
+	}
+}
+
+func boolean(in interface{}) interface{} {
+	switch in.(type) {
+	case float64:
+		if rand.Float64() < float64(in.(float64)) {
+			return true
+		}
+		return false
+	default:
+		return false
 	}
 }

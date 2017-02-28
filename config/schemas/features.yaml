@@ -9,5 +9,5 @@ title: {{.features}} {{.modifiers}}
 icon: {{.icon}}
 created:  {{.itemtimestamp}}
 modified:  {{.itemtimestamp}}
-enabled:  {{.boolean}}
+enabled:  {{boolean(0.80)}}
 ...
