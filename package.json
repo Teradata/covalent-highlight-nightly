@@ -1,0 +1,51 @@
+{
+  "name": "@covalent/highlight",
+  "version": "3.1.0-beta.1",
+  "description": "Teradata UI Platform Highlight Module",
+  "keywords": [
+    "angular",
+    "components",
+    "reusable",
+    "highlight",
+    "highlightjs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teradata/covalent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/teradata/covalent/issues"
+  },
+  "license": "MIT",
+  "author": "Teradata UX",
+  "contributors": [
+    "Kyle Ledbetter <kyle.ledbetter@teradata.com>",
+    "Richa Vyas <richa.vyas@teradata.com>",
+    "Ed Morales <eduardo.morales@teradata.com>",
+    "Jason Weaver <jason.weaver@teradata.com>",
+    "Jeremy Wilken <jeremy.wilken@teradata.com>",
+    "Jeremy Smartt <jeremy.smartt@teradata.com>",
+    "Steven Ov <steven.ov@teradata.com>"
+  ],
+  "dependencies": {
+    "highlight.js": "^9.13.1"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.0.0 || ^9.0.0 || ^10.0.0-0",
+    "@angular/core": "^8.0.0 || ^9.0.0 || ^10.0.0-0",
+    "@angular/platform-browser": "^8.0.0 || ^9.0.0 || ^10.0.0-0",
+    "@angular/cdk": "^8.0.0 || ^9.0.0 || ^10.0.0-0",
+    "@angular/material": "^8.0.0 || ^9.0.0 || ^10.0.0-0",
+    "tslib": "^1.10.0"
+  },
+  "main": "bundles/covalent-highlight.umd.js",
+  "module": "fesm5/covalent-highlight.js",
+  "es2015": "fesm2015/covalent-highlight.js",
+  "esm5": "esm5/covalent-highlight.js",
+  "esm2015": "esm2015/covalent-highlight.js",
+  "fesm5": "fesm5/covalent-highlight.js",
+  "fesm2015": "fesm2015/covalent-highlight.js",
+  "typings": "covalent-highlight.d.ts",
+  "metadata": "covalent-highlight.metadata.json",
+  "sideEffects": false
+}
