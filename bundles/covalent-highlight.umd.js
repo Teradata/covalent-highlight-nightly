@@ -339,7 +339,7 @@
              * @return {?}
              */
             function () {
-                return this.copyCodeTooltips.copy || 'Copy';
+                return (this.copyCodeTooltips && this.copyCodeTooltips.copy) || 'Copy';
             },
             enumerable: true,
             configurable: true
@@ -349,7 +349,7 @@
              * @return {?}
              */
             function () {
-                return this.copyCodeTooltips.copied || 'Copied';
+                return (this.copyCodeTooltips && this.copyCodeTooltips.copied) || 'Copied';
             },
             enumerable: true,
             configurable: true

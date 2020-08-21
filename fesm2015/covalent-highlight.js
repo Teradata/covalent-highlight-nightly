@@ -295,13 +295,13 @@ class TdCopyCodeButtonComponent {
      * @return {?}
      */
     get copyTooltip() {
-        return this.copyCodeTooltips.copy || 'Copy';
+        return (this.copyCodeTooltips && this.copyCodeTooltips.copy) || 'Copy';
     }
     /**
      * @return {?}
      */
     get copiedTooltip() {
-        return this.copyCodeTooltips.copied || 'Copied';
+        return (this.copyCodeTooltips && this.copyCodeTooltips.copied) || 'Copied';
     }
     /**
      * @param {?} event
