@@ -1,4 +1,3 @@
-import lib from 'highlight.js/lib';
 import { EventEmitter, SecurityContext, Component, Renderer2, ElementRef, ChangeDetectorRef, Input, Output, ViewChild, HostListener, NgModule } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -7,9 +6,14 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+/**
+ * @fileoverview added by tsickle
+ * Generated from: highlight.component.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /* tslint:disable-next-line */
 /** @type {?} */
-
+let hljs = require('highlight.js/lib');
 class TdHighlightComponent {
     /**
      * @param {?} _renderer
@@ -68,14 +72,18 @@ class TdHighlightComponent {
      * @param {?} lang
      * @return {?}
      */
+    set codeLang(lang) {
+        this.setLanguage(lang);
+    }
+    /**
+     * @deprecated - removed completely \@4.0.0
+     * @param {?} lang
+     * @return {?}
+     */
     set lang(lang) {
-        if (!lang) {
-            throw new Error('Error: language attribute must be defined in TdHighlightComponent.');
-        }
-        this._lang = lang;
-        if (this._initialized) {
-            this._loadContent(this._content);
-        }
+        // tslint:disable-next-line: no-console
+        console.warn('DEPRECATION WARNING: switch to codeLang attribute as lang attribute is deprecated.');
+        this.setLanguage(lang);
     }
     /**
      * @return {?}
@@ -94,6 +102,19 @@ class TdHighlightComponent {
             this._loadContent(this._content);
         }
         this._initialized = true;
+    }
+    /**
+     * @param {?} lang
+     * @return {?}
+     */
+    setLanguage(lang) {
+        if (!lang) {
+            throw new Error('Error: language attribute must be defined in TdHighlightComponent.');
+        }
+        this._lang = lang;
+        if (this._initialized) {
+            this._loadContent(this._content);
+        }
     }
     /**
      * General method to parse a string of code into HTML Elements and load them into the container
@@ -169,7 +190,7 @@ class TdHighlightComponent {
         this.copyContent = codeToParse;
         // Parse code with highlight.js depending on language
         /** @type {?} */
-        const highlightedCode = lib.highlight(this._lang, codeToParse, true);
+        const highlightedCode = hljs.highlight(this._lang, codeToParse, true);
         highlightedCode.value = highlightedCode.value
             .replace(/=<span class="hljs-value">""<\/span>/gi, '')
             .replace('<head>', '')
@@ -181,7 +202,7 @@ TdHighlightComponent.decorators = [
     { type: Component, args: [{
                 selector: 'td-highlight',
                 template: "<div>\n  <div #highlightComponent>\n    <ng-content></ng-content>\n  </div>\n\n  <div #copyComponent *ngIf=\"copyCodeToClipboard\">\n    <td-copy-code-button\n      [copiedContent]=\"copyContent\"\n      [copyCodeToClipboard]=\"copyCodeToClipboard\"\n      [copyCodeTooltips]=\"copyCodeTooltips\"\n    ></td-copy-code-button>\n  </div>\n</div>\n",
-                styles: [":host ::ng-deep{overflow-x:auto;padding:16px;display:-ms-flexbox;display:flex}:host ::ng-deep .highlight,:host ::ng-deep code,:host ::ng-deep pre{font-family:Menlo,Monaco,\"Andale Mono\",\"lucida console\",\"Courier New\",monospace}:host ::ng-deep pre{display:block;overflow-x:auto;padding:0;margin:0;background:0 0;font-family:Menlo,Monaco,\"Andale Mono\",\"lucida console\",\"Courier New\",monospace;line-height:1.45;-moz-tab-size:2;-o-tab-size:2;tab-size:2;-webkit-font-smoothing:auto;-webkit-text-size-adjust:none;position:relative;border-radius:2px;font-size:.8rem;width:100%}:host ::ng-deep code{margin:0;padding:0;overflow-wrap:break-word;white-space:pre-wrap}:host ::ng-deep .highlight{display:block;overflow-wrap:break-word;line-height:1.5;margin:0}:host ::ng-deep .copy-button{border:none;background:inherit;margin-top:-8px;margin-right:-8px}"]
+                styles: [":host ::ng-deep{display:-ms-flexbox;display:flex;overflow-x:auto;padding:16px}:host ::ng-deep .highlight,:host ::ng-deep code,:host ::ng-deep pre{font-family:Menlo,Monaco,Andale Mono,lucida console,Courier New,monospace}:host ::ng-deep pre{-moz-tab-size:2;-o-tab-size:2;-webkit-font-smoothing:auto;-webkit-text-size-adjust:none;background:rgba(0,0,0,0);border-radius:2px;display:block;font-family:Menlo,Monaco,Andale Mono,lucida console,Courier New,monospace;font-size:.8rem;line-height:1.45;margin:0;overflow-x:auto;padding:0;position:relative;tab-size:2;width:100%}:host ::ng-deep code{margin:0;overflow-wrap:break-word;padding:0;white-space:pre-wrap}:host ::ng-deep .highlight{display:block;line-height:1.5;margin:0;overflow-wrap:break-word}:host ::ng-deep .copy-button{background:inherit;border:none;margin-right:-8px;margin-top:-8px}"]
             }] }
 ];
 /** @nocollapse */
@@ -195,7 +216,8 @@ TdHighlightComponent.propDecorators = {
     content: [{ type: Input, args: ['content',] }],
     copyCodeToClipboard: [{ type: Input }],
     copyCodeTooltips: [{ type: Input }],
-    lang: [{ type: Input, args: ['lang',] }],
+    codeLang: [{ type: Input, args: ['codeLang',] }],
+    lang: [{ type: Input }],
     contentReady: [{ type: Output }],
     highlightComp: [{ type: ViewChild, args: ['highlightComponent',] }],
     copyComp: [{ type: ViewChild, args: ['copyComponent',] }],
@@ -269,7 +291,8 @@ if (false) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: copy-code-button/copy-code-button.component.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @record
@@ -358,7 +381,8 @@ if (false) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: highlight.module.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CovalentHighlightModule {
 }
@@ -372,17 +396,20 @@ CovalentHighlightModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: public_api.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: index.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: covalent-highlight.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 export { CovalentHighlightModule, TdCopyCodeButtonComponent, TdHighlightComponent };

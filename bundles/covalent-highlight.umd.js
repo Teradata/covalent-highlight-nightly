@@ -1,15 +1,24 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('highlight.js/lib'), require('@angular/core'), require('@angular/platform-browser'), require('@angular/material/tooltip'), require('@angular/common'), require('@angular/cdk/clipboard'), require('@angular/material/icon'), require('@angular/material/button')) :
-    typeof define === 'function' && define.amd ? define('@covalent/highlight', ['exports', 'highlight.js/lib', '@angular/core', '@angular/platform-browser', '@angular/material/tooltip', '@angular/common', '@angular/cdk/clipboard', '@angular/material/icon', '@angular/material/button'], factory) :
-    (global = global || self, factory((global.covalent = global.covalent || {}, global.covalent.highlight = {}), global.lib, global.ng.core, global.ng.platformBrowser, global.ng.material.tooltip, global.ng.common, global.ng.cdk.clipboard, global.ng.material.icon, global.ng.material.button));
-}(this, (function (exports, lib, core, platformBrowser, tooltip, common, clipboard, icon, button) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/platform-browser'), require('@angular/common'), require('@angular/cdk/clipboard'), require('@angular/material/icon'), require('@angular/material/tooltip'), require('@angular/material/button')) :
+    typeof define === 'function' && define.amd ? define('@covalent/highlight', ['exports', '@angular/core', '@angular/platform-browser', '@angular/common', '@angular/cdk/clipboard', '@angular/material/icon', '@angular/material/tooltip', '@angular/material/button'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.covalent = global.covalent || {}, global.covalent.highlight = {}), global.ng.core, global.ng.platformBrowser, global.ng.common, global.ng.cdk.clipboard, global.ng.material.icon, global.ng.material.tooltip, global.ng.material.button));
+}(this, (function (exports, core, platformBrowser, common, clipboard, icon, tooltip, button) { 'use strict';
 
-    lib = lib && Object.prototype.hasOwnProperty.call(lib, 'default') ? lib['default'] : lib;
-
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: highlight.component.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     /* tslint:disable-next-line */
     /** @type {?} */
-
+    var hljs = require('highlight.js/lib');
     var TdHighlightComponent = /** @class */ (function () {
+        /**
+         * @param {?} _renderer
+         * @param {?} _elementRef
+         * @param {?} _domSanitizer
+         * @param {?} cdr
+         */
         function TdHighlightComponent(_renderer, _elementRef, _domSanitizer, cdr) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -43,36 +52,20 @@
              * Used to load data dynamically.
              *
              * e.g. `.html`, `.ts` , etc.
-             */
-            set: /**
-             * content?: string
-             *
-             * Code content to be parsed as highlighted html.
-             * Used to load data dynamically.
-             *
-             * e.g. `.html`, `.ts` , etc.
              * @param {?} content
              * @return {?}
              */
-            function (content) {
+            set: function (content) {
                 this._content = content;
                 if (this._initialized) {
                     this._loadContent(this._content);
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
-        Object.defineProperty(TdHighlightComponent.prototype, "lang", {
+        Object.defineProperty(TdHighlightComponent.prototype, "codeLang", {
             /**
-             * lang?: string
-             *
-             * Language of the code content to be parsed as highlighted html.
-             * Defaults to `typescript`
-             *
-             * e.g. `typescript`, `html` , etc.
-             */
-            set: /**
              * lang?: string
              *
              * Language of the code content to be parsed as highlighted html.
@@ -82,36 +75,38 @@
              * @param {?} lang
              * @return {?}
              */
-            function (lang) {
-                if (!lang) {
-                    throw new Error('Error: language attribute must be defined in TdHighlightComponent.');
-                }
-                this._lang = lang;
-                if (this._initialized) {
-                    this._loadContent(this._content);
-                }
+            set: function (lang) {
+                this.setLanguage(lang);
             },
-            enumerable: true,
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(TdHighlightComponent.prototype, "lang", {
+            /**
+             * @deprecated - removed completely \@4.0.0
+             * @param {?} lang
+             * @return {?}
+             */
+            set: function (lang) {
+                // tslint:disable-next-line: no-console
+                console.warn('DEPRECATION WARNING: switch to codeLang attribute as lang attribute is deprecated.');
+                this.setLanguage(lang);
+            },
+            enumerable: false,
             configurable: true
         });
         /**
          * @return {?}
          */
-        TdHighlightComponent.prototype.ngAfterViewChecked = /**
-         * @return {?}
-         */
-        function () {
+        TdHighlightComponent.prototype.ngAfterViewChecked = function () {
             this.cdr.detectChanges();
         };
         /**
          * @return {?}
          */
-        TdHighlightComponent.prototype.ngAfterViewInit = /**
-         * @return {?}
-         */
-        function () {
+        TdHighlightComponent.prototype.ngAfterViewInit = function () {
             if (!this._content) {
-                this._loadContent(((/** @type {?} */ (this.highlightComp.nativeElement))).textContent);
+                this._loadContent((( /** @type {?} */(this.highlightComp.nativeElement))).textContent);
             }
             else {
                 this._loadContent(this._content);
@@ -119,21 +114,25 @@
             this._initialized = true;
         };
         /**
-         * General method to parse a string of code into HTML Elements and load them into the container
+         * @param {?} lang
+         * @return {?}
          */
+        TdHighlightComponent.prototype.setLanguage = function (lang) {
+            if (!lang) {
+                throw new Error('Error: language attribute must be defined in TdHighlightComponent.');
+            }
+            this._lang = lang;
+            if (this._initialized) {
+                this._loadContent(this._content);
+            }
+        };
         /**
          * General method to parse a string of code into HTML Elements and load them into the container
          * @private
          * @param {?} code
          * @return {?}
          */
-        TdHighlightComponent.prototype._loadContent = /**
-         * General method to parse a string of code into HTML Elements and load them into the container
-         * @private
-         * @param {?} code
-         * @return {?}
-         */
-        function (code) {
+        TdHighlightComponent.prototype._loadContent = function (code) {
             if (code && code.trim().length > 0) {
                 // Clean container
                 this._renderer.setProperty(this._elementRef.nativeElement, 'innerHTML', '');
@@ -150,12 +149,7 @@
          * @param {?} codeStr
          * @return {?}
          */
-        TdHighlightComponent.prototype._elementFromString = /**
-         * @private
-         * @param {?} codeStr
-         * @return {?}
-         */
-        function (codeStr) {
+        TdHighlightComponent.prototype._elementFromString = function (codeStr) {
             // Renderer2 doesnt have a parsing method, so we have to sanitize and use [innerHTML]
             // to parse the string into DOM element for now.
             /** @type {?} */
@@ -174,12 +168,7 @@
          * @param {?} contents
          * @return {?}
          */
-        TdHighlightComponent.prototype._render = /**
-         * @private
-         * @param {?} contents
-         * @return {?}
-         */
-        function (contents) {
+        TdHighlightComponent.prototype._render = function (contents) {
             // Trim leading and trailing newlines
             contents = contents.replace(/^(\s|\t)*\n+/g, '').replace(/(\s|\t)*\n+(\s|\t)*$/g, '');
             // Split markup by line characters
@@ -191,11 +180,10 @@
             // Remove all indentation spaces so code can be parsed correctly
             /** @type {?} */
             var startingWhitespaceRegex = new RegExp('^' + firstLineWhitespace);
-            lines = lines.map((/**
+            lines = lines.map(( /**
              * @param {?} line
              * @return {?}
-             */
-            function (line) {
+             */function (line) {
                 return line
                     .replace('=""', '') // remove empty values
                     .replace(startingWhitespaceRegex, '')
@@ -211,39 +199,40 @@
             this.copyContent = codeToParse;
             // Parse code with highlight.js depending on language
             /** @type {?} */
-            var highlightedCode = lib.highlight(this._lang, codeToParse, true);
+            var highlightedCode = hljs.highlight(this._lang, codeToParse, true);
             highlightedCode.value = highlightedCode.value
                 .replace(/=<span class="hljs-value">""<\/span>/gi, '')
                 .replace('<head>', '')
                 .replace('<head/>', '');
             return highlightedCode.value;
         };
-        TdHighlightComponent.decorators = [
-            { type: core.Component, args: [{
-                        selector: 'td-highlight',
-                        template: "<div>\n  <div #highlightComponent>\n    <ng-content></ng-content>\n  </div>\n\n  <div #copyComponent *ngIf=\"copyCodeToClipboard\">\n    <td-copy-code-button\n      [copiedContent]=\"copyContent\"\n      [copyCodeToClipboard]=\"copyCodeToClipboard\"\n      [copyCodeTooltips]=\"copyCodeTooltips\"\n    ></td-copy-code-button>\n  </div>\n</div>\n",
-                        styles: [":host ::ng-deep{overflow-x:auto;padding:16px;display:-ms-flexbox;display:flex}:host ::ng-deep .highlight,:host ::ng-deep code,:host ::ng-deep pre{font-family:Menlo,Monaco,\"Andale Mono\",\"lucida console\",\"Courier New\",monospace}:host ::ng-deep pre{display:block;overflow-x:auto;padding:0;margin:0;background:0 0;font-family:Menlo,Monaco,\"Andale Mono\",\"lucida console\",\"Courier New\",monospace;line-height:1.45;-moz-tab-size:2;-o-tab-size:2;tab-size:2;-webkit-font-smoothing:auto;-webkit-text-size-adjust:none;position:relative;border-radius:2px;font-size:.8rem;width:100%}:host ::ng-deep code{margin:0;padding:0;overflow-wrap:break-word;white-space:pre-wrap}:host ::ng-deep .highlight{display:block;overflow-wrap:break-word;line-height:1.5;margin:0}:host ::ng-deep .copy-button{border:none;background:inherit;margin-top:-8px;margin-right:-8px}"]
-                    }] }
-        ];
-        /** @nocollapse */
-        TdHighlightComponent.ctorParameters = function () { return [
-            { type: core.Renderer2 },
-            { type: core.ElementRef },
-            { type: platformBrowser.DomSanitizer },
-            { type: core.ChangeDetectorRef }
-        ]; };
-        TdHighlightComponent.propDecorators = {
-            content: [{ type: core.Input, args: ['content',] }],
-            copyCodeToClipboard: [{ type: core.Input }],
-            copyCodeTooltips: [{ type: core.Input }],
-            lang: [{ type: core.Input, args: ['lang',] }],
-            contentReady: [{ type: core.Output }],
-            highlightComp: [{ type: core.ViewChild, args: ['highlightComponent',] }],
-            copyComp: [{ type: core.ViewChild, args: ['copyComponent',] }],
-            tooltip: [{ type: core.ViewChild, args: ['tooltip',] }]
-        };
         return TdHighlightComponent;
     }());
+    TdHighlightComponent.decorators = [
+        { type: core.Component, args: [{
+                    selector: 'td-highlight',
+                    template: "<div>\n  <div #highlightComponent>\n    <ng-content></ng-content>\n  </div>\n\n  <div #copyComponent *ngIf=\"copyCodeToClipboard\">\n    <td-copy-code-button\n      [copiedContent]=\"copyContent\"\n      [copyCodeToClipboard]=\"copyCodeToClipboard\"\n      [copyCodeTooltips]=\"copyCodeTooltips\"\n    ></td-copy-code-button>\n  </div>\n</div>\n",
+                    styles: [":host ::ng-deep{display:-ms-flexbox;display:flex;overflow-x:auto;padding:16px}:host ::ng-deep .highlight,:host ::ng-deep code,:host ::ng-deep pre{font-family:Menlo,Monaco,Andale Mono,lucida console,Courier New,monospace}:host ::ng-deep pre{-moz-tab-size:2;-o-tab-size:2;-webkit-font-smoothing:auto;-webkit-text-size-adjust:none;background:rgba(0,0,0,0);border-radius:2px;display:block;font-family:Menlo,Monaco,Andale Mono,lucida console,Courier New,monospace;font-size:.8rem;line-height:1.45;margin:0;overflow-x:auto;padding:0;position:relative;tab-size:2;width:100%}:host ::ng-deep code{margin:0;overflow-wrap:break-word;padding:0;white-space:pre-wrap}:host ::ng-deep .highlight{display:block;line-height:1.5;margin:0;overflow-wrap:break-word}:host ::ng-deep .copy-button{background:inherit;border:none;margin-right:-8px;margin-top:-8px}"]
+                }] }
+    ];
+    /** @nocollapse */
+    TdHighlightComponent.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef },
+        { type: platformBrowser.DomSanitizer },
+        { type: core.ChangeDetectorRef }
+    ]; };
+    TdHighlightComponent.propDecorators = {
+        content: [{ type: core.Input, args: ['content',] }],
+        copyCodeToClipboard: [{ type: core.Input }],
+        copyCodeTooltips: [{ type: core.Input }],
+        codeLang: [{ type: core.Input, args: ['codeLang',] }],
+        lang: [{ type: core.Input }],
+        contentReady: [{ type: core.Output }],
+        highlightComp: [{ type: core.ViewChild, args: ['highlightComponent',] }],
+        copyComp: [{ type: core.ViewChild, args: ['copyComponent',] }],
+        tooltip: [{ type: core.ViewChild, args: ['tooltip',] }]
+    };
     if (false) {
         /**
          * @type {?}
@@ -312,7 +301,8 @@
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: copy-code-button/copy-code-button.component.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * @record
@@ -335,34 +325,30 @@
             this.copyCodeTooltips = {};
         }
         Object.defineProperty(TdCopyCodeButtonComponent.prototype, "copyTooltip", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return (this.copyCodeTooltips && this.copyCodeTooltips.copy) || 'Copy';
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TdCopyCodeButtonComponent.prototype, "copiedTooltip", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return (this.copyCodeTooltips && this.copyCodeTooltips.copied) || 'Copied';
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
          * @param {?} event
          * @return {?}
          */
-        TdCopyCodeButtonComponent.prototype.textCopied = /**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        TdCopyCodeButtonComponent.prototype.textCopied = function (event) {
             if (event) {
                 this.tooltip.hide();
                 this.tooltip.message = this.copiedTooltip;
@@ -372,34 +358,30 @@
         /**
          * @return {?}
          */
-        TdCopyCodeButtonComponent.prototype.initializeTooltip = /**
-         * @return {?}
-         */
-        function () {
+        TdCopyCodeButtonComponent.prototype.initializeTooltip = function () {
             var _this = this;
-            setTimeout((/**
+            setTimeout(( /**
              * @return {?}
-             */
-            function () {
+             */function () {
                 _this.tooltip.message = _this.copyTooltip;
             }), 200);
         };
-        TdCopyCodeButtonComponent.decorators = [
-            { type: core.Component, args: [{
-                        selector: 'td-copy-code-button',
-                        template: "<button\n  mat-icon-button\n  [cdkCopyToClipboard]=\"copiedContent\"\n  class=\"copy-button\"\n  [matTooltip]=\"copyTooltip\"\n  #tooltip=\"matTooltip\"\n  (cdkCopyToClipboardCopied)=\"textCopied($event)\"\n>\n  <mat-icon role=\"img\">content_copy</mat-icon>\n</button>\n",
-                        styles: [""]
-                    }] }
-        ];
-        TdCopyCodeButtonComponent.propDecorators = {
-            copiedContent: [{ type: core.Input }],
-            copyCodeToClipboard: [{ type: core.Input }],
-            copyCodeTooltips: [{ type: core.Input }],
-            tooltip: [{ type: core.ViewChild, args: ['tooltip',] }],
-            initializeTooltip: [{ type: core.HostListener, args: ['mouseleave',] }]
-        };
         return TdCopyCodeButtonComponent;
     }());
+    TdCopyCodeButtonComponent.decorators = [
+        { type: core.Component, args: [{
+                    selector: 'td-copy-code-button',
+                    template: "<button\n  mat-icon-button\n  [cdkCopyToClipboard]=\"copiedContent\"\n  class=\"copy-button\"\n  [matTooltip]=\"copyTooltip\"\n  #tooltip=\"matTooltip\"\n  (cdkCopyToClipboardCopied)=\"textCopied($event)\"\n>\n  <mat-icon role=\"img\">content_copy</mat-icon>\n</button>\n",
+                    styles: [""]
+                }] }
+    ];
+    TdCopyCodeButtonComponent.propDecorators = {
+        copiedContent: [{ type: core.Input }],
+        copyCodeToClipboard: [{ type: core.Input }],
+        copyCodeTooltips: [{ type: core.Input }],
+        tooltip: [{ type: core.ViewChild, args: ['tooltip',] }],
+        initializeTooltip: [{ type: core.HostListener, args: ['mouseleave',] }]
+    };
     if (false) {
         /** @type {?} */
         TdCopyCodeButtonComponent.prototype.copiedContent;
@@ -418,20 +400,39 @@
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: highlight.module.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     var CovalentHighlightModule = /** @class */ (function () {
         function CovalentHighlightModule() {
         }
-        CovalentHighlightModule.decorators = [
-            { type: core.NgModule, args: [{
-                        imports: [common.CommonModule, clipboard.ClipboardModule, icon.MatIconModule, tooltip.MatTooltipModule, button.MatButtonModule],
-                        declarations: [TdHighlightComponent, TdCopyCodeButtonComponent],
-                        exports: [TdHighlightComponent],
-                    },] }
-        ];
         return CovalentHighlightModule;
     }());
+    CovalentHighlightModule.decorators = [
+        { type: core.NgModule, args: [{
+                    imports: [common.CommonModule, clipboard.ClipboardModule, icon.MatIconModule, tooltip.MatTooltipModule, button.MatButtonModule],
+                    declarations: [TdHighlightComponent, TdCopyCodeButtonComponent],
+                    exports: [TdHighlightComponent],
+                },] }
+    ];
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: public_api.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: index.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: covalent-highlight.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
 
     exports.CovalentHighlightModule = CovalentHighlightModule;
     exports.TdCopyCodeButtonComponent = TdCopyCodeButtonComponent;

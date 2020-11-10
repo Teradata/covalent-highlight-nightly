@@ -39,6 +39,8 @@ export declare class TdHighlightComponent implements AfterViewInit, AfterViewChe
      *
      * e.g. `typescript`, `html` , etc.
      */
+    set codeLang(lang: string);
+    /** @deprecated - removed completely @4.0.0 */
     set lang(lang: string);
     copyContent: string;
     /**
@@ -52,6 +54,7 @@ export declare class TdHighlightComponent implements AfterViewInit, AfterViewChe
     constructor(_renderer: Renderer2, _elementRef: ElementRef, _domSanitizer: DomSanitizer, cdr: ChangeDetectorRef);
     ngAfterViewChecked(): void;
     ngAfterViewInit(): void;
+    setLanguage(lang: string): void;
     /**
      * General method to parse a string of code into HTML Elements and load them into the container
      */
